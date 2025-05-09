@@ -5,12 +5,22 @@ import DoctorDashboard from './src/features/doctor/pages/Dashboard/DoctorDashboa
 import Calendar from './src/features/doctor/pages/Appointments/Calendar';
 import LandingPage from './src/pages/LandingPage/LandingPage';
 import NotFound from './src/pages/NotFound/NotFound';
+
 import DoctorLayout from './src/layouts/DoctorLayout';
 import AppointmentList from './src/features/doctor/pages/Appointments/AppointmentList';
 import PatientRecord from './src/features/doctor/pages/Patients/PatientRecord';
 import PatientDetails from './src/features/doctor/pages/Patients/PatientDetails';
 import PatientPrescriptionList from './src/features/doctor/pages/Prescriptions/PatientPrescriptionList';
 import AnalyticsDashboard from './src/features/doctor/pages/Reports/AnalyticsDashboard';  
+
+
+import ReceptionDashboard from './src/features/reception/pages/Dashboard/ReceptionDashboard';
+import Appointments from './src/features/reception/pages/Appointments/Appointments'; 
+import Patients from './src/features/reception/pages/Patients/Patients';
+import WaitingRoom from './src/features/reception/pages/WaitingRoom/WaitingRoom';
+import Billing from './src/features/reception/pages/Billing/Billing';
+import Sidebar from './src/features/reception/pages/SideBar/Sidebar';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -66,6 +76,36 @@ export default function App() {
         <Stack.Screen
           name="AnalyticsDashboard"
           component={AnalyticsDashboard}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ReceptionDashboard"
+          component={ReceptionDashboard}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Appointments"
+          component={Appointments}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Patients"
+          component={Patients}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="WaitingRoom"
+          component={WaitingRoom}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Billing"
+          component={Billing}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Sidebar"
+          component={Sidebar}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

@@ -23,7 +23,7 @@ const LandingPage = () => {
 
         <Button
           mode="contained"
-          onPress={() => navigation.navigate('AnalyticsDashboard')}
+          onPress={() => navigation.navigate('Sidebar')}
           style={styles.ctaButton}
           labelStyle={styles.ctaLabel}
         >
