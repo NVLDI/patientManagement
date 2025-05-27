@@ -37,6 +37,13 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 8,
   },
+  Action: {
+    backgroundColor: '#e3eefd',
+    borderRadius: 6,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    overflow: 'hidden',
+  },
   buttonText: {
     color: '#3366ff',
     fontWeight: '600',
@@ -66,7 +73,6 @@ export const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 8,
     fontWeight: '600',
-    fontSize: 12,
     overflow: 'hidden',
   },
   statusCompleted: {

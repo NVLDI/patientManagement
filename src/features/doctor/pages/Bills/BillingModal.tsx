@@ -23,7 +23,7 @@ const BillingModal = ({ visible, onClose, patient }) => {
   const removeItem = (index) => setInvoiceItems(invoiceItems.filter((_, i) => i !== index));
 
   return (
-    <Modal visible={visible} animationType="slide">
+    <Modal visible={visible} animationType="fade">
       <ScrollView style={styles.card}>
         <Text style={styles.sectionTitle}>New Invoice for {patient?.name}</Text>
 
