@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     top: 0,
     left: 0,
     width: 250,
-    height,
+    height: '100%',
     backgroundColor: '#fff',
     borderRightWidth: 1,
     borderRightColor: '#e0e0e0',
@@ -64,3 +64,5 @@ export const styles = StyleSheet.create({
     color: '#000',
   },
 });
+
+

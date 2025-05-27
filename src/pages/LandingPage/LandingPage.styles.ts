@@ -1,57 +1,111 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({
-  fullScreen: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
   container: {
     flexGrow: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 40,
-    justifyContent: 'center', // Center vertically
-    alignItems: 'center',
+    backgroundColor: '#fff',
   },
   heroImage: {
-    width: '100%',
-    height: 250,
-    marginBottom: 30,
-    borderRadius: 12,
+    height: 420,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  title: {
-    fontSize: 32,
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 60,
+    paddingHorizontal: 20,
+  },
+  heroTitle: {
+    fontSize: 34,
     fontWeight: 'bold',
+    color: '#fff',
     textAlign: 'center',
     marginBottom: 10,
-    color: '#333',
   },
-  subtitle: {
+  heroSubtitle: {
     fontSize: 18,
+    color: '#eee',
     textAlign: 'center',
-    marginBottom: 30,
-    color: '#666',
+    marginBottom: 20,
   },
   ctaButton: {
     borderRadius: 30,
-    paddingHorizontal: 20,
-    paddingVertical: 6,
+    paddingHorizontal: 25,
+    paddingVertical: 8,
     backgroundColor: '#1e88e5',
+  },
+  secondaryButton: {
+    borderRadius: 30,
+    paddingHorizontal: 25,
+    paddingVertical: 8,
+    borderColor: '#fff',
+    marginLeft: 10,
   },
   ctaLabel: {
     fontSize: 16,
     fontWeight: '600',
     color: '#fff',
   },
-  footer: {
-    padding: 16,
-    backgroundColor: '#f1f1f1',
-    alignItems: 'center',
+  buttonRow: {
+    flexDirection: 'row',
     justifyContent: 'center',
+    marginTop: 10,
   },
-  footerText: {
-    fontSize: 12,
-    color: '#999',
+  section: {
+    padding: 25,
+    backgroundColor: '#f9f9f9',
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 15,
+    color: '#2c3e50',
+  },
+  sectionItem: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginVertical: 5,
+    color: '#34495e',
+  },
+  testimonialBanner: {
+    backgroundColor: '#e3f2fd',
+    padding: 30,
+    alignItems: 'center',
+  },
+  quote: {
+    fontSize: 18,
+    fontStyle: 'italic',
+    textAlign: 'center',
+    color: '#333',
+    marginBottom: 10,
+  },
+  quoteAuthor: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#1976d2',
+  },
+  footerArea: {
+    padding: 20,
+    backgroundColor: '#f0f0f0',
+    alignItems: 'center',
+  },
+  footer: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 20,
   },
 });
 
 export default styles;
+  

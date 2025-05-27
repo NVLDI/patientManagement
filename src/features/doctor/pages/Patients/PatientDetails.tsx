@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, Pressable } from 'react-native';
-import styles from './PatientDetails.styles'; // ✅ Corrected your import (was typo with comma)
+import { useRoute,useNavigation } from '@react-navigation/native';
+import styles from './PatientDetails.styles';
 import PatientNotes from './PatientNotes';
-import PatientTest from './PatientTest'; // ⬅️ Import
+import PatientTest from './PatientTest';
 import PatientPrescription from './PatientPrescription';
-import PatientBilling from './PatientBilling'; // ⬅️ Import
+import PatientBilling from './PatientBilling';
 import PatientTimeline from './PatientTimeline';
-import PatientPhoto from './PatientPhoto'; // ⬅️ Import
-import PatientImage from './PatientImage'; // ⬅️ Import
+import PatientPhoto from './PatientPhoto';
+import PatientImage from './PatientImage';
+
 const PatientDetails = () => {
+  const route = useRoute();
+  const navigation = useNavigation(); // ✅
+  const { patient } = route.params;
+
   const tabs = [
     'History',
     'Timeline',
@@ -20,7 +26,7 @@ const PatientDetails = () => {
     'Billing',
   ];
 
-  const [activeTab, setActiveTab] = useState('History'); // 🔥 Track active tab
+  const [activeTab, setActiveTab] = useState('History');
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -57,19 +63,27 @@ const PatientDetails = () => {
   return (
     <ScrollView style={styles.container}>
       {/* Back Link */}
-      <Text style={styles.backLink}>&larr; Back to Patient List</Text>
+      <Pressable onPress={() => navigation.goBack()}>  {/* ✅ */}
+        <Text style={styles.backLink}>&larr; Back to Patient List</Text>
+      </Pressable>
 
       {/* Profile Header */}
       <View style={styles.card}>
         <View style={styles.profileRow}>
           <View style={styles.avatar}>
-            <Text style={styles.avatarText}>JW</Text>
+            <Text style={styles.avatarText}>{patient.name?.[0] ?? '?'}</Text>
           </View>
           <View style={styles.profileInfo}>
-            <Text style={styles.name}>James Wilson</Text>
-            <Text style={styles.details}>Age: 45 • Gender: Male • Patient ID: JW123456</Text>
-            <Text style={styles.details}>Phone: +1 (555) 111-2222 • Email: james.w@example.com</Text>
-            <Text style={styles.lastVisit}>Last Visit: April 2, 2025</Text>
+            <Text style={styles.name}>{patient.name}</Text>
+            <Text style={styles.details}>
+              DOB: {patient.dob} • Gender: {patient.gender} • Patient ID: {patient.id}
+            </Text>
+            <Text style={styles.details}>
+              Phone: {patient.phone ?? 'N/A'} • Email: {patient.email ?? 'N/A'}
+            </Text>
+            <Text style={styles.lastVisit}>
+              Last Visit: {patient.lastVisit ?? 'Not Available'}
+            </Text>
           </View>
         </View>
       </View>

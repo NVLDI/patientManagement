@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   statCard: {
-    width: '48%',
+    width: '23%',
     backgroundColor: '#fff',
     borderRadius: 8,
-    padding: 20,
+    padding: 16,
     marginBottom: 12,
     shadowColor: '#000',
     shadowOpacity: 0.05,
@@ -30,27 +30,32 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   statValue: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 4,
     textAlign: 'center',
   },
   statLabel: {
     fontSize: 14,
     color: '#555',
     textAlign: 'center',
+    marginTop: 4,
   },
-  chartCard: {
+  chartGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  chartCell: {
     backgroundColor: '#fff',
     borderRadius: 8,
     padding: 12,
     marginBottom: 16,
-    flex: 1,
+    width: '48%',
   },
   chartTitle: {
     fontSize: 16,
     fontWeight: '600',
-    marginBottom: 8,
+    marginBottom: 10,
   },
 });
 

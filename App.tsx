@@ -5,21 +5,41 @@ import DoctorDashboard from './src/features/doctor/pages/Dashboard/DoctorDashboa
 import Calendar from './src/features/doctor/pages/Appointments/Calendar';
 import LandingPage from './src/pages/LandingPage/LandingPage';
 import NotFound from './src/pages/NotFound/NotFound';
+//Doctor Dashboard
 
-import DoctorLayout from './src/layouts/DoctorLayout';
+import DoctorLayout from './src/layouts/DoctorLayout/DoctorLayout';
 import AppointmentList from './src/features/doctor/pages/Appointments/AppointmentList';
 import PatientRecord from './src/features/doctor/pages/Patients/PatientRecord';
 import PatientDetails from './src/features/doctor/pages/Patients/PatientDetails';
 import PatientPrescriptionList from './src/features/doctor/pages/Prescriptions/PatientPrescriptionList';
-import AnalyticsDashboard from './src/features/doctor/pages/Reports/AnalyticsDashboard';  
+import AnalyticsDashboard from './src/features/doctor/pages/Reports/AnalyticsDashboard';
+import PatientBills from './src/features/doctor/pages/Bills/Bills';
 
-
+// Reception Dashboard
 import ReceptionDashboard from './src/features/reception/pages/Dashboard/ReceptionDashboard';
 import Appointments from './src/features/reception/pages/Appointments/Appointments'; 
 import Patients from './src/features/reception/pages/Patients/Patients';
 import WaitingRoom from './src/features/reception/pages/WaitingRoom/WaitingRoom';
 import Billing from './src/features/reception/pages/Billing/Billing';
-import Sidebar from './src/features/reception/pages/SideBar/Sidebar';
+
+// Admin Dashboard
+import AdminSidebar from './src/features/admin/pages/Sidebar/Sidebar';
+import AdminDashboard from './src/features/admin/pages/Dashboard/AdminDashboard';
+import UserManagement from './src/features/admin/pages/UserManagement/UserManagement';
+import SystemConfig from './src/features/admin/pages/SystemConfig/SystemConfig';
+import Reports from './src/features/admin/pages/Reports/Reports';
+import Analytics from './src/features/admin/pages/Analytics/Analytics';
+// Nurse Dashboard
+
+import NurseDashboard from './src/features/nurse/pages/NurseDashboard/Dashboard';
+import PatientQueue from './src/features/nurse/pages/PatientQueue/PatientQueue';
+import RecentVisits from './src/features/nurse/pages/RecentVisits/RecentVisits';
+import Procedures from './src/features/nurse/pages/Procedures/Procedures';
+import Medications from './src/features/nurse/pages/Medications/Medications';
+
+
+import Profile from './src/features/doctor/components/Profile/Profile';
+import Settings from './src/features/doctor/components/Settings/Settings';
 
 const Stack = createNativeStackNavigator();
 
@@ -103,9 +123,76 @@ export default function App() {
           component={Billing}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
-          name="Sidebar"
-          component={Sidebar}
+          name="AdminSidebar"
+          component={AdminSidebar}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AdminDashboard"
+          component={AdminDashboard}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="UserManagement"
+          component={UserManagement}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SystemConfig"
+          component={SystemConfig}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Reports"
+          component={Reports}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Analytics"
+          component={Analytics}
+          options={{ headerShown: false }}
+        />
+       
+        <Stack.Screen
+          name="NurseDashboard"
+          component={NurseDashboard}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PatientQueue"
+          component={PatientQueue}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="RecentVisits"
+          component={RecentVisits}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Procedures"
+          component={Procedures}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Medications"
+          component={Medications}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={Settings}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PatientBills"
+          component={PatientBills}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

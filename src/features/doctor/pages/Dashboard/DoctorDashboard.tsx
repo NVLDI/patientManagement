@@ -3,7 +3,6 @@ import { View, ScrollView } from 'react-native';
 import { MetricCard } from '../../../../components/common/Card/MetricCard';
 import { doctorDashboardStyles } from './DoctorDashboard.styles';
 import Segment from '../../../../components/common/Section/SegmentPage';
-import TopBar from '../../../../components/common/TopBar/TopBar'; // ✅ Import TopBar
 
 
 const DoctorDashboard: React.FC = () => {
@@ -11,8 +10,6 @@ const DoctorDashboard: React.FC = () => {
     <View style={doctorDashboardStyles.container}>
       {/* Layout with NavBar on the left */}
         <View style={doctorDashboardStyles.mainContent}>
-          {/* TopBar at the top */}
-          <TopBar doctorName="Dr. Dinesh" notifications={3} initials="DK" />
           {/* Scrollable content */}
           <ScrollView>
             <View style={doctorDashboardStyles.metricsContainer}>
