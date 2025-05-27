@@ -17,7 +17,7 @@ import Appointments from '../../features/doctor/pages/Appointments/Calendar';
 import Patients from '../../features/doctor/pages/Patients/PatientRecord';
 import Prescriptions from '../../features/doctor/pages/Prescriptions/PatientPrescriptionList';
 import Analytics from '../../features/doctor/pages/Reports/AnalyticsDashboard';
-import PatientBilling from '../../features/doctor/pages/Patients/PatientBilling';
+import PatientBilling from '../../features/doctor/pages/Bills/Bills';
 import TopBar from '../../components/common/TopBar/TopBar';
 import NotificationModal from '../../components/common/Modals/NotificationModal'; // ✅ NEW
 import { styles } from './DoctorLayout.style';
