@@ -1,4 +1,3 @@
-// components/common/Section/SegmentPage.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Modal, Animated } from 'react-native';
 import { styles } from './Segment.styles';
@@ -28,7 +27,7 @@ const appointments = [
     name: 'Mr. Robert Chen',
     type: 'Lab Results Review',
     status: 'Confirmed',
-    action: 'Start',
+    action: 'On-going',
     view: 'View',
     lastNote: 'Discussed cholesterol levels. Start dietary plan.',
   },
@@ -114,9 +113,28 @@ const SegmentPage = () => {
                 <Text style={[styles.statusBadge, styles[`status${appt.status}`]]}>
                   {appt.status}
                 </Text>
-                <TouchableOpacity style={styles.Action}>
-                  <Text style={styles.link}>{appt.action}</Text>
+
+                <TouchableOpacity
+                  style={[
+                    styles.Action,
+                    appt.action === 'Start' && styles.actionStart,
+                    appt.action === 'On-going' && styles.actionOngoing,
+                    appt.action === 'End' && styles.actionEnd,
+                  ]}
+                  disabled={appt.action === 'End'}
+                >
+                  <Text
+                    style={[
+                      styles.link,
+                      appt.action === 'Start' && styles.textStart,
+                      appt.action === 'On-going' && styles.textOngoing,
+                      appt.action === 'End' && styles.textEnd,
+                    ]}
+                  >
+                    {appt.action}
+                  </Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.Action} onPress={() => handleView(appt)}>
                   <Text style={styles.link}>{appt.view}</Text>
                 </TouchableOpacity>
@@ -141,7 +159,7 @@ const SegmentPage = () => {
         </View>
       </ScrollView>
 
-      {/* Modal for patient details */}
+      {/* Modal */}
       <Modal
         transparent
         animationType="none"

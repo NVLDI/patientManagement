@@ -110,4 +110,23 @@ export const styles = StyleSheet.create({
     color: '#999',
     fontSize: 12,
   },
+  actionStart: {
+    backgroundColor: '#d4f8e8',
+  },
+  actionOngoing: {
+    backgroundColor: '#fffacc',
+  },
+  actionEnd: {
+    backgroundColor: '#ffe5e5',
+  },
+  textStart: {
+    color: '#1b5e20',
+  },
+  textOngoing: {
+    color: '#7a5800',
+  },
+  textEnd: {
+    color: '#9e0000',
+  },
+
 });
