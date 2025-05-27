@@ -7,6 +7,7 @@ const mockPatients = [
   { id: 'P001', name: 'John Doe' },
   { id: 'P002', name: 'Emma Lee' },
   { id: 'P003', name: 'Alex Roy' },
+   { id: 'P004', name: 'Alex Roy' },
 ];
 
 const patientBills = {
