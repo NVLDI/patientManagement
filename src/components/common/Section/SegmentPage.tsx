@@ -8,17 +8,63 @@ import NewAppointmentModal from '../Modals/Calendar/NewAppointmentModal';
 import BlockTimeModal from '../Modals/Calendar/BlockTimeModal';
 
 const SegmentPage = () => {
-  const [appointments, setAppointments] = useState([]);
+  const [appointments, setAppointments] = useState([
+    {
+      name: 'Mrs. Sarah Johnson',
+      time: '10:00 AM',
+      date: '2025-05-29',
+      reason: 'Routine check-up',
+      lastNote: 'Prescribed multivitamins on last visit.'
+    },
+    {
+      name: 'Mr. Robert Chen',
+      time: '11:30 AM',
+      date: '2025-05-29',
+      reason: 'Follow-up for blood test results',
+      lastNote: 'Reviewed cholesterol levels previously.'
+    },
+    {
+      name: 'Pt. John Doe',
+      time: '03:15 PM',
+      date: '2025-05-30',
+      reason: 'Dental cleaning',
+      lastNote: 'Complained about gum sensitivity during prior visit.'
+    }
+  ]);
+
   const [blocks, setBlocks] = useState([]);
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [newModalVisible, setNewModalVisible] = useState(false);
   const [blockModalVisible, setBlockModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
+  const [activityModalVisible, setActivityModalVisible] = useState(false);
+  const [selectedActivity, setSelectedActivity] = useState(null);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
+  const activities = [
+    {
+      icon: '📝',
+      text: 'Updated notes for',
+      patient: 'Sarah Johnson',
+      time: '10 mins ago'
+    },
+    {
+      icon: '💊',
+      text: 'New prescription created for',
+      patient: 'John Doe',
+      time: '45 mins ago'
+    },
+    {
+      icon: '📋',
+      text: 'Appointment confirmed with',
+      patient: 'Robert Chen',
+      time: '1 hour ago'
+    }
+  ];
+
   useEffect(() => {
-    if (modalVisible) {
+    if (modalVisible || activityModalVisible) {
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 300,
@@ -31,15 +77,20 @@ const SegmentPage = () => {
         useNativeDriver: true,
       }).start();
     }
-  }, [modalVisible]);
+  }, [modalVisible, activityModalVisible]);
 
   const handleView = (appointment) => {
     setSelectedPatient(appointment);
     setModalVisible(true);
   };
 
+  const handleActivityView = (activity) => {
+    setSelectedActivity(activity);
+    setActivityModalVisible(true);
+  };
+
   const getPrefixedName = (name: string): string => {
-    const hasPrefix = ['Mr.', 'Mrs.', 'Miss', 'Dr.', 'Ms.'].some(prefix =>
+    const hasPrefix = ['Mr.', 'Mrs.', 'Miss', 'Dr.', 'Ms.', 'Pt.'].some(prefix =>
       name.startsWith(prefix)
     );
     return hasPrefix ? name : `Pt. ${name}`;
@@ -79,9 +130,7 @@ const SegmentPage = () => {
               <View style={styles.statusRow}>
                 <Text style={[styles.statusBadge, styles.statusConfirmed]}>Confirmed</Text>
 
-                <TouchableOpacity
-                  style={[styles.Action, styles.actionStart]}
-                >
+                <TouchableOpacity style={[styles.Action, styles.actionStart]}>
                   <Text style={[styles.link, styles.textStart]}>Start</Text>
                 </TouchableOpacity>
 
@@ -95,6 +144,17 @@ const SegmentPage = () => {
 
         <View style={styles.rightPanel}>
           <Text style={styles.sectionTitle}>Recent Activity</Text>
+          {activities.map((act, idx) => (
+            <TouchableOpacity key={idx} onPress={() => handleActivityView(act)} style={styles.activityItem}>
+              <Text style={styles.activityIcon}>{act.icon}</Text>
+              <View>
+                <Text style={styles.activityText}>
+                  {act.text} <Text style={styles.bold}>{act.patient}</Text>
+                </Text>
+                <Text style={styles.activityTime}>{act.time}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
         </View>
       </ScrollView>
 
@@ -136,10 +196,34 @@ const SegmentPage = () => {
                     <Text style={modalStyles.closeIcon}>✕</Text>
                   </TouchableOpacity>
                 </View>
-                <Text style={modalStyles.detailText}>
-                  Time: {selectedPatient.time}
-                </Text>
                 <Text style={modalStyles.detailText}>Date: {selectedPatient.date}</Text>
+                <Text style={modalStyles.detailText}>Time: {selectedPatient.time}</Text>
+                <Text style={modalStyles.detailText}>Reason: {selectedPatient.reason}</Text>
+                <Text style={modalStyles.noteText}>Last Note: {selectedPatient.lastNote}</Text>
+              </>
+            )}
+          </View>
+        </Animated.View>
+      </Modal>
+
+      <Modal
+        transparent
+        animationType="fade"
+        visible={activityModalVisible}
+        onRequestClose={() => setActivityModalVisible(false)}
+      >
+        <Animated.View style={[modalStyles.overlay, { opacity: fadeAnim }]}>
+          <View style={modalStyles.container}>
+            {selectedActivity && (
+              <>
+                <View style={modalStyles.header}>
+                  <Text style={modalStyles.patientName}>{selectedActivity.icon} Activity</Text>
+                  <TouchableOpacity onPress={() => setActivityModalVisible(false)}>
+                    <Text style={modalStyles.closeIcon}>✕</Text>
+                  </TouchableOpacity>
+                </View>
+                <Text style={modalStyles.detailText}>{selectedActivity.text} {selectedActivity.patient}</Text>
+                <Text style={modalStyles.detailText}>Time: {selectedActivity.time}</Text>
               </>
             )}
           </View>

@@ -25,7 +25,7 @@ const NewAppointmentModal = ({ visible, onClose, onAdd }) => {
   };
 
   return (
-    <Modal visible={visible} animationType="slide" transparent={true}>
+    <Modal visible={visible} animationType="fade" transparent={true}>
       <View style={styles.overlay}>
         <View style={styles.container}>
           <Text style={styles.title}>🆕 New Appointment</Text>

@@ -1,122 +1,96 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import {
+  StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView,
+} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
-interface AppointmentDay {
-  day: number;
-  appointments: number;
-}
+const DAYS_IN_WEEK = 7;
+const WEEK_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const Calendar: React.FC = () => {
-  // State for view mode (Day, Week, Month)
-  const [viewMode, setViewMode] = useState<'Day' | 'Week' | 'Month'>('Month');
-  
-  // Example data for days with appointments
-  const appointmentDays: { [key: number]: AppointmentDay } = {
-    4: { day: 4, appointments: 3 },
-    12: { day: 12, appointments: 2 },
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  // Example appointments per day
+  const appointmentDays: Record<string, number> = {
+    '2025-05-04': 3,
+    '2025-05-12': 2,
+    '2025-05-21': 1,
   };
 
-  // Generate days for the calendar grid
-  const generateDays = () => {
+  const getDaysArray = (year: number, month: number) => {
+    const date = new Date(year, month, 1);
     const days = [];
-    const daysInMonth = 30; // For this example, we're using 30 days
-    
-    for (let i = 1; i <= daysInMonth; i++) {
+
+    const firstDay = date.getDay();
+    const lastDate = new Date(year, month + 1, 0).getDate();
+
+    // Fill leading blanks
+    for (let i = 0; i < firstDay; i++) {
+      days.push(null);
+    }
+
+    // Fill actual days
+    for (let i = 1; i <= lastDate; i++) {
       days.push(i);
     }
-    
+
     return days;
   };
 
-  // Days of the week headers
-  const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const days = generateDays();
-  
-  // Render each day cell
-  const renderDay = (day: number) => {
-    const hasAppointments = appointmentDays[day];
-    const isHighlighted = hasAppointments !== undefined;
-    
-    return (
-      <TouchableOpacity 
-        key={day} 
-        style={[
-          styles.dayCell,
-          isHighlighted && styles.highlightedDay
-        ]}
-      >
-        <Text style={styles.dayNumber}>{day}</Text>
-        {hasAppointments && (
-          <Text style={styles.appointmentCount}>
-            {hasAppointments.appointments} Appointment{hasAppointments.appointments > 1 ? 's' : ''}
-          </Text>
-        )}
-      </TouchableOpacity>
-    );
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  const monthDays = getDaysArray(year, month);
+
+  const handleChangeMonth = (offset: number) => {
+    const newDate = new Date(currentDate.setMonth(month + offset));
+    setCurrentDate(new Date(newDate));
   };
+
+  const formatKey = (d: number) => `${year}-${(month + 1).toString().padStart(2, '0')}-${d.toString().padStart(2, '0')}`;
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="auto" />
-      
-      {/* Header */}
+      <StatusBar style="dark" />
+
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Appointments</Text>
-        <View style={styles.headerButtons}>
-          <TouchableOpacity style={styles.switchButton}>
-            <View style={styles.switchThumb} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.addButtonText}>+ Add</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.rescheduleButton}>
-            <Text style={styles.rescheduleButtonText}>🔄 Reschedule</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.blockButton}>
-            <Text style={styles.blockButtonText}>⬜ Block Time</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={() => handleChangeMonth(-1)}>
+          <Text style={styles.navText}>←</Text>
+        </TouchableOpacity>
+        <Text style={styles.headerText}>
+          {currentDate.toLocaleString('default', { month: 'long' })} {year}
+        </Text>
+        <TouchableOpacity onPress={() => handleChangeMonth(1)}>
+          <Text style={styles.navText}>→</Text>
+        </TouchableOpacity>
       </View>
-      
-      {/* Calendar Header */}
-      <View style={styles.calendarHeader}>
-        <Text style={styles.calendarTitle}>Calendar</Text>
-        <View style={styles.viewSelector}>
-          <TouchableOpacity 
-            style={[styles.viewButton, viewMode === 'Day' && styles.selectedViewButton]}
-            onPress={() => setViewMode('Day')}
-          >
-            <Text style={[styles.viewButtonText, viewMode === 'Day' && styles.selectedViewText]}>Day</Text>
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={[styles.viewButton, viewMode === 'Week' && styles.selectedViewButton]}
-            onPress={() => setViewMode('Week')}
-          >
-            <Text style={[styles.viewButtonText, viewMode === 'Week' && styles.selectedViewText]}>Week</Text>
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={[styles.viewButton, viewMode === 'Month' && styles.selectedViewButton]}
-            onPress={() => setViewMode('Month')}
-          >
-            <Text style={[styles.viewButtonText, viewMode === 'Month' && styles.selectedViewText]}>Month</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      
-      {/* Weekday Headers */}
-      <View style={styles.weekdayHeader}>
-        {weekDays.map((day) => (
-          <View key={day} style={styles.weekdayCell}>
-            <Text style={styles.weekdayText}>{day}</Text>
-          </View>
+
+      <View style={styles.weekdayRow}>
+        {WEEK_DAYS.map((d) => (
+          <Text key={d} style={styles.weekdayText}>{d}</Text>
         ))}
       </View>
-      
-      {/* Calendar Grid */}
-      <ScrollView style={styles.calendarContainer}>
-        <View style={styles.calendarGrid}>
-          {days.map((day) => renderDay(day))}
+
+      <ScrollView>
+        <View style={styles.grid}>
+          {monthDays.map((day, idx) => {
+            const key = formatKey(day ?? 1);
+            const count = day && appointmentDays[key];
+
+            return (
+              <View key={idx} style={styles.dayCell}>
+                {day ? (
+                  <>
+                    <Text style={styles.dayNumber}>{day}</Text>
+                    {count && (
+                      <Text style={styles.appointmentCount}>
+                        {count} Appointment{count > 1 ? 's' : ''}
+                      </Text>
+                    )}
+                  </>
+                ) : null}
+              </View>
+            );
+          })}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -124,152 +98,44 @@ const Calendar: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f6fa',
-  },
+  container: { flex: 1, backgroundColor: '#f5f6fa' },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
     padding: 16,
-    paddingTop: 24,
-    backgroundColor: '#f5f6fa',
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  headerButtons: {
-    flexDirection: 'row',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
   },
-  switchButton: {
-    width: 40,
-    height: 24,
-    backgroundColor: '#3a82f7',
-    borderRadius: 12,
-    marginRight: 12,
-    padding: 2,
-  },
-  switchThumb: {
-    width: 20,
-    height: 20,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-  },
-  addButton: {
-    backgroundColor: '#4caf50',
-    borderRadius: 4,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    marginRight: 8,
-  },
-  addButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  rescheduleButton: {
-    backgroundColor: '#f5c518',
-    borderRadius: 4,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    marginRight: 8,
-  },
-  rescheduleButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  blockButton: {
-    backgroundColor: '#f44336',
-    borderRadius: 4,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-  },
-  blockButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  calendarHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  calendarTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  viewSelector: {
-    flexDirection: 'row',
-    backgroundColor: '#e9ecf6',
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  viewButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  selectedViewButton: {
-    backgroundColor: '#3a82f7',
-  },
-  viewButtonText: {
-    color: '#666',
-    fontWeight: '500',
-  },
-  selectedViewText: {
-    color: '#fff',
-  },
-  weekdayHeader: {
+  headerText: { fontSize: 20, fontWeight: 'bold', color: '#333' },
+  navText: { fontSize: 24, color: '#3a82f7' },
+  weekdayRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingVertical: 12,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    paddingVertical: 10,
+    backgroundColor: '#e0e0e0',
   },
-  weekdayCell: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  weekdayText: {
-    fontWeight: '500',
-    color: '#666',
-  },
-  calendarContainer: {
-    flex: 1,
-  },
-  calendarGrid: {
+  weekdayText: { width: '14.28%', textAlign: 'center', fontWeight: '600' },
+  grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 8,
+    paddingHorizontal: 4,
   },
   dayCell: {
-    width: '14.28%', // 7 days per row
+    width: '14.28%',
     aspectRatio: 1,
-    padding: 4,
-    marginBottom: 1,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 0.5,
     borderColor: '#e0e0e0',
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
+    padding: 4,
   },
-  highlightedDay: {
-    backgroundColor: '#e6f0ff',
-  },
-  dayNumber: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
+  dayNumber: { fontSize: 16, fontWeight: 'bold' },
   appointmentCount: {
     fontSize: 10,
-    color: '#666',
+    marginTop: 2,
     textAlign: 'center',
-    marginTop: 4,
+    color: '#555',
   },
 });
 

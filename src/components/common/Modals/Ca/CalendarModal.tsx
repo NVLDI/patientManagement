@@ -15,7 +15,7 @@ const CalendarModal = ({ visible, onClose, markedDates, appointments = [], block
   );
 
   return (
-    <Modal animationType="slide" transparent={true} visible={visible}>
+    <Modal animationType="fade" transparent={true} visible={visible}>
       <View style={styles.overlay}>
         <View style={styles.container}>
           <View style={styles.header}>
