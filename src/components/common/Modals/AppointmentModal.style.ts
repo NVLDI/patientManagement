@@ -6,57 +6,61 @@ export const AppointmentModalStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)'
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   container: {
     width: '85%',
     backgroundColor: 'white',
     padding: 20,
-    borderRadius: 12
+    borderRadius: 12,
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10
+    marginBottom: 10,
   },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
     padding: 8,
     marginBottom: 10,
-    borderRadius: 8
+    borderRadius: 8,
   },
-  blockButton: {
-    backgroundColor: '#ff6666',
-    padding: 12,
-    borderRadius: 8
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
   },
-  blockButtonText: {
-    color: 'white',
-    textAlign: 'center',
-    fontWeight: '600'
+  rescheduleButton: {
+    flex: 1,
+    backgroundColor: '#facc15', // yellow
+    paddingVertical: 10,
+    marginRight: 8,
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cancelButton: {
+    flex: 1,
+    backgroundColor: '#ef4444', // red
+    paddingVertical: 10,
+    marginLeft: 8,
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: '600',
+    marginLeft: 8,
+    fontSize: 16,
   },
   cancelText: {
-    marginTop: 10,
-    alignSelf: 'flex-end',
+    marginTop: 16,
+    alignSelf: 'center',
     color: '#999',
-    fontWeight: '600'
+    fontWeight: '600',
   },
-  actionButton: {
-  flex: 1,
-  paddingVertical: 10,
-  marginHorizontal: 5,
-  borderRadius: 8,
-  alignItems: 'center',
-},
-rescheduleButton: {
-  backgroundColor: '#3b82f6', // blue
-},
-cancelButton: {
-  backgroundColor: '#ef4444', // red
-},
-actionText: {
-  color: 'white',
-  fontWeight: '600',
-},
 });

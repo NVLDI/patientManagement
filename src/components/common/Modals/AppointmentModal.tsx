@@ -37,12 +37,15 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ visible, data, onCl
           <Text>Reason: {data?.type}</Text>
           <Text style={{ marginTop: 8 }}>Last Note: {data?.note}</Text>
 
-          <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'space-between' }}>
-            <TouchableOpacity style={[styles.actionButton, styles.rescheduleButton]} onPress={() => alert('Reschedule logic here')}>
-              <Text style={styles.actionText}>Reschedule</Text>
+          <View style={styles.buttonRow}>
+            <TouchableOpacity style={styles.rescheduleButton} onPress={() => alert('Reschedule logic here')}>
+              <Ionicons name="refresh" size={20} color="#fff" />
+              <Text style={styles.buttonText}>Reschedule</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.actionButton, styles.cancelButton]} onPress={() => alert('Cancel logic here')}>
-              <Text style={styles.actionText}>Cancel</Text>
+
+            <TouchableOpacity style={styles.cancelButton} onPress={() => alert('Cancel logic here')}>
+              <Ionicons name="close-circle" size={20} color="#fff" />
+              <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>
