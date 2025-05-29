@@ -6,6 +6,7 @@ import { newAppointmentModalStyles as styles } from './NewAppointmentModal.style
 
 const NewAppointmentModal = ({ visible, onClose, onAdd }) => {
   const [name, setName] = useState('');
+  const [procedure, setProcedure] = useState('');
   const [date, setDate] = useState(undefined);
   const [time, setTime] = useState(undefined);
 
@@ -13,22 +14,41 @@ const NewAppointmentModal = ({ visible, onClose, onAdd }) => {
   const [showTimePicker, setShowTimePicker] = useState(false);
 
   const handleAdd = () => {
-    if (name && date && time) {
-      const formattedDate = date.toISOString().split('T')[0];
+    if (name && date && time && procedure) {
+      const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
       const formattedTime = `${String(time.hours).padStart(2, '0')}:${String(time.minutes).padStart(2, '0')} ${time.hours >= 12 ? 'PM' : 'AM'}`;
-      onAdd({ name, date: formattedDate, time: formattedTime });
+      onAdd({ name, procedure, date: formattedDate, time: formattedTime });
       setName('');
+      setProcedure('');
       setDate(undefined);
       setTime(undefined);
       onClose();
     }
   };
 
+  const getDateTimeText = () => {
+    if (!date && !time) return 'Select Date & Time';
+    if (date && !time) return `${date.toDateString()} - Select Time`;
+    if (!date && time) return `Select Date - ${formatTime(time)}`;
+    return `${date.toDateString()} ${formatTime(time)}`;
+  };
+
+  const formatTime = (time) => {
+    return `${String(time.hours).padStart(2, '0')}:${String(time.minutes).padStart(2, '0')} ${time.hours >= 12 ? 'PM' : 'AM'}`;
+  };
+
   return (
     <Modal visible={visible} animationType="fade" transparent={true}>
       <View style={styles.overlay}>
         <View style={styles.container}>
-          <Text style={styles.title}>🆕 New Appointment</Text>
+
+          {/* Top bar */}
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <Text style={styles.title}>🆕 New Appointment</Text>
+            <TouchableOpacity onPress={onClose}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#999' }}>✖</Text>
+            </TouchableOpacity>
+          </View>
 
           <TextInput
             placeholder="Patient Name"
@@ -37,21 +57,24 @@ const NewAppointmentModal = ({ visible, onClose, onAdd }) => {
             style={styles.input}
           />
 
-          <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.input}>
-            <Text style={{ color: date ? '#000' : '#aaa' }}>{date ? date.toDateString() : 'Select Date'}</Text>
-          </TouchableOpacity>
+          <TextInput
+            placeholder="Procedure"
+            value={procedure}
+            onChangeText={setProcedure}
+            style={styles.input}
+          />
 
-          <TouchableOpacity onPress={() => setShowTimePicker(true)} style={styles.input}>
-            <Text style={{ color: time ? '#000' : '#aaa' }}>{time ? `${String(time.hours).padStart(2, '0')}:${String(time.minutes).padStart(2, '0')} ${time.hours >= 12 ? 'PM' : 'AM'}` : 'Select Time'}</Text>
+          <TouchableOpacity
+            onPress={() => setShowDatePicker(true)}
+            style={styles.input}
+          >
+            <Text style={{ color: (date || time) ? '#000' : '#aaa' }}>{getDateTimeText()}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={handleAdd} style={styles.addButton}>
             <Text style={styles.addButtonText}>Add Appointment</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={onClose}>
-            <Text style={styles.cancelText}>Cancel</Text>
-          </TouchableOpacity>
         </View>
 
         <DatePickerModal
@@ -63,6 +86,7 @@ const NewAppointmentModal = ({ visible, onClose, onAdd }) => {
           onConfirm={({ date }) => {
             setShowDatePicker(false);
             setDate(date);
+            setTimeout(() => setShowTimePicker(true), 300);
           }}
         />
 

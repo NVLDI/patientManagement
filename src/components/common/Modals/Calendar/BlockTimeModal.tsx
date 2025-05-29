@@ -1,4 +1,3 @@
-// components/Modals/BlockTimeModal.tsx
 import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity } from 'react-native';
 import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
@@ -8,6 +7,7 @@ const BlockTimeModal = ({ visible, onClose, onBlock }) => {
   const [date, setDate] = useState(undefined);
   const [fromTime, setFromTime] = useState(undefined);
   const [toTime, setToTime] = useState(undefined);
+
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showFromTimePicker, setShowFromTimePicker] = useState(false);
   const [showToTimePicker, setShowToTimePicker] = useState(false);
@@ -20,9 +20,14 @@ const BlockTimeModal = ({ visible, onClose, onBlock }) => {
     return `${hours}:${minutes} ${period}`;
   };
 
+  const formatSummary = () => {
+    if (!date && !fromTime && !toTime) return 'Select Date, From & To Time';
+    return `Date: ${date ? date.toDateString() : '---'} | From: ${fromTime ? formatTime(fromTime) : '--:--'} | To: ${toTime ? formatTime(toTime) : '--:--'}`;
+  };
+
   const handleBlock = () => {
     if (date && fromTime && toTime) {
-      const formattedDate = date.toISOString().split('T')[0];
+      const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
       onBlock({
         date: formattedDate,
         from: formatTime(fromTime),
@@ -35,40 +40,36 @@ const BlockTimeModal = ({ visible, onClose, onBlock }) => {
     }
   };
 
+  const handleSequencePick = () => {
+    setShowDatePicker(true);
+  };
+
   return (
     <Modal visible={visible} animationType="fade" transparent={true}>
       <View style={styles.overlay}>
         <View style={styles.container}>
-          <Text style={styles.title}>⛔ Block Time</Text>
 
-          <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.input}>
-            <Text style={{ color: date ? '#000' : '#aaa' }}>
-              {date ? date.toDateString() : 'Select Date'}
-            </Text>
-          </TouchableOpacity>
+          {/* Top Bar */}
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <Text style={styles.title}>⛔ Block Time</Text>
+            <TouchableOpacity onPress={onClose}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#999' }}>✖</Text>
+            </TouchableOpacity>
+          </View>
 
-          <TouchableOpacity onPress={() => setShowFromTimePicker(true)} style={styles.input}>
-            <Text style={{ color: fromTime ? '#000' : '#aaa' }}>
-              {fromTime ? `From: ${formatTime(fromTime)}` : 'Select From Time'}
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => setShowToTimePicker(true)} style={styles.input}>
-            <Text style={{ color: toTime ? '#000' : '#aaa' }}>
-              {toTime ? `To: ${formatTime(toTime)}` : 'Select To Time'}
+          {/* Combined Date-Time TextInput */}
+          <TouchableOpacity onPress={handleSequencePick} style={[styles.input, { marginBottom: 16 }]}>
+            <Text style={{ color: (date && fromTime && toTime) ? '#000' : '#aaa' }}>
+              {formatSummary()}
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={handleBlock} style={styles.blockButton}>
             <Text style={styles.blockButtonText}>Block Time</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity onPress={onClose}>
-            <Text style={styles.cancelText}>Cancel</Text>
-          </TouchableOpacity>
         </View>
 
-        {/* Pickers */}
+        {/* Sequential Pickers */}
         <DatePickerModal
           locale="en"
           mode="single"
@@ -76,8 +77,9 @@ const BlockTimeModal = ({ visible, onClose, onBlock }) => {
           onDismiss={() => setShowDatePicker(false)}
           date={date}
           onConfirm={({ date }) => {
-            setShowDatePicker(false);
             setDate(date);
+            setShowDatePicker(false);
+            setTimeout(() => setShowFromTimePicker(true), 300);
           }}
         />
 
@@ -85,8 +87,9 @@ const BlockTimeModal = ({ visible, onClose, onBlock }) => {
           visible={showFromTimePicker}
           onDismiss={() => setShowFromTimePicker(false)}
           onConfirm={(time) => {
-            setShowFromTimePicker(false);
             setFromTime(time);
+            setShowFromTimePicker(false);
+            setTimeout(() => setShowToTimePicker(true), 300);
           }}
           hours={9}
           minutes={0}
@@ -96,8 +99,8 @@ const BlockTimeModal = ({ visible, onClose, onBlock }) => {
           visible={showToTimePicker}
           onDismiss={() => setShowToTimePicker(false)}
           onConfirm={(time) => {
-            setShowToTimePicker(false);
             setToTime(time);
+            setShowToTimePicker(false);
           }}
           hours={17}
           minutes={0}

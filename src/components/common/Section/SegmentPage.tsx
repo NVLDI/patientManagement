@@ -180,7 +180,7 @@ const SegmentPage = () => {
 
       <Modal
         transparent
-        animationType="none"
+        animationType="fade"
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
