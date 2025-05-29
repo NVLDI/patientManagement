@@ -55,6 +55,8 @@ const DoctorLayout: React.FC<DoctorLayoutProps> = ({ onLogout }) => {
   const contentMargin = useRef(new Animated.Value(drawerWidth)).current;
   const dropdownAnim = useRef(new Animated.Value(0)).current;
 const drawerWidthAnim = useRef(new Animated.Value(drawerWidth)).current;
+const labelOpacityAnim = useRef(new Animated.Value(1)).current;
+
 
   useEffect(() => {
   Animated.timing(drawerWidthAnim, {
@@ -68,6 +70,12 @@ const drawerWidthAnim = useRef(new Animated.Value(drawerWidth)).current;
       duration: 300,
       useNativeDriver: false,
     }).start();
+
+    Animated.timing(labelOpacityAnim, {
+    toValue: isDrawerVisible ? 1 : 0,
+    duration: 300,
+    useNativeDriver: true,
+  }).start();
   }, [isDrawerVisible]);
 
   useEffect(() => {
@@ -256,9 +264,18 @@ const drawerWidthAnim = useRef(new Animated.Value(drawerWidth)).current;
 >
   <Text style={styles.navIcon}>{item.icon}</Text>
   {isDrawerVisible && (
-    <Text style={[styles.navLabel, currentTab === item.label && styles.activeNavLabel]}>
-      {item.label}
-    </Text>
+    <Animated.Text
+  style={[
+    styles.navLabel,
+    currentTab === item.label && styles.activeNavLabel,
+    { opacity: labelOpacityAnim, transform: [{ translateX: labelOpacityAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [-10, 0],
+      }) }] }
+  ]}
+>
+  {item.label}
+</Animated.Text>
   )}
 </TouchableOpacity>
                 ))}
