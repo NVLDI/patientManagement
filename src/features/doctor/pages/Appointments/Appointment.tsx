@@ -6,17 +6,17 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import styles from './Appointment.style';
-
+import AppointmentModal from '../../../../components/common/Modals/AppointmentModal';
 const WEEK_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const rawAppointments = [
   { date: '2025-05-28', time: '09:00 AM', name: 'James Wilson', type: 'General Checkup', status: 'Completed' },
   { date: '2025-05-28', time: '10:30 AM', name: 'Sarah Johnson', type: 'Follow-up', status: 'Waiting' },
   { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
-   { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
-    { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
-     { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
-      { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
-      
+  { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
+  { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
+  { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
+  { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
+
 ];
 
 const Appointment: React.FC = () => {
@@ -28,7 +28,8 @@ const Appointment: React.FC = () => {
   const [viewStartDate, setViewStartDate] = useState(new Date());
   const timeColumnWidth = 80;
   const actualDayWidth = (containerWidth - timeColumnWidth) / 7;
-
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
   const appointmentDays: Record<string, number> = {
     '2025-05-04': 3,
     '2025-05-12': 2,
@@ -143,6 +144,13 @@ const Appointment: React.FC = () => {
 
   const appointmentGroups = get7DayAppointments();
   return (
+    <>
+    
+    <AppointmentModal
+  visible={modalVisible}
+  data={selectedAppointment}
+  onClose={() => setModalVisible(false)}
+/>
     <SafeAreaView style={styles.container} onLayout={handleLayout}>
       <StatusBar style="dark" />
       <View style={styles.headerRow}>
@@ -208,7 +216,8 @@ const Appointment: React.FC = () => {
                 <Text style={styles.sectionTitle}>{label}</Text>
                 {group.length > 0 ? (
                   group.map((appt, idx) => (
-                    <View key={idx} style={styles.appointmentRow}>
+                    <TouchableOpacity key={idx} style={styles.appointmentRow}
+                      onPress={() => {setSelectedAppointment({...appt,note: 'Prescribed multivitamins on last visit.',});setModalVisible(true);}}>
                       <View>
                         <Text style={styles.appointmentTime}>{`${appt.date} ${appt.time} - ${appt.name}`}</Text>
                         <Text style={styles.appointmentType}>{appt.type}</Text>
@@ -216,7 +225,7 @@ const Appointment: React.FC = () => {
                       <View style={[styles.statusBadge, styles[`status${appt.status}`]]}>
                         <Text style={styles.statusText}>{appt.status}</Text>
                       </View>
-                    </View>
+                    </TouchableOpacity>
                   ))
                 ) : (
                   <Text style={{ color: '#888', paddingVertical: 6 }}>No appointments</Text>
@@ -257,7 +266,6 @@ const Appointment: React.FC = () => {
     </TouchableOpacity>
   </View>
 </View>
-
           {viewMode === 'Month' && (
             <>
               <View style={styles.weekdayRow}>
@@ -348,6 +356,7 @@ const Appointment: React.FC = () => {
         </>
       )}
     </SafeAreaView>
+</>
   );
 };
 
