@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Dashboard from '../../features/doctor/pages/Dashboard/DoctorDashboard';
-import Appointments from '../../features/doctor/pages/Appointments/Calendar';
+import Appointments from '../../features/doctor/pages/Appointments/Appointment';
 import Patients from '../../features/doctor/pages/Patients/PatientRecord';
 import Prescriptions from '../../features/doctor/pages/Prescriptions/PatientPrescriptionList';
 import Analytics from '../../features/doctor/pages/Reports/AnalyticsDashboard';

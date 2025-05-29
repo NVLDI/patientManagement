@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DoctorDashboard from './src/features/doctor/pages/Dashboard/DoctorDashboard';
-import Calendar from './src/features/doctor/pages/Appointments/Calendar';
+import Calendar from './src/features/doctor/pages/Appointments/Appointment';
 import LandingPage from './src/pages/LandingPage/LandingPage';
 import NotFound from './src/pages/NotFound/NotFound';
 //Doctor Dashboard
