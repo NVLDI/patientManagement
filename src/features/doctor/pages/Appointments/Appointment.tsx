@@ -1,7 +1,7 @@
 // AppointmentCalendarToggle.tsx
 import React, { useState, useEffect } from 'react';
 import {
-  Text, View, TouchableOpacity, ScrollView, SafeAreaView, Dimensions, LayoutChangeEvent,
+  Text, View, TouchableOpacity, ScrollView, SafeAreaView, Dimensions, LayoutChangeEvent,TextInput,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,6 +12,11 @@ const rawAppointments = [
   { date: '2025-05-28', time: '09:00 AM', name: 'James Wilson', type: 'General Checkup', status: 'Completed' },
   { date: '2025-05-28', time: '10:30 AM', name: 'Sarah Johnson', type: 'Follow-up', status: 'Waiting' },
   { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
+   { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
+    { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
+     { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
+      { date: '2025-05-30', time: '12:00 PM', name: 'Robert Chen', type: 'Lab Results', status: 'Confirmed' },
+      
 ];
 
 const Appointment: React.FC = () => {
@@ -19,6 +24,8 @@ const Appointment: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'Day' | 'Week' | 'Month'>('Month');
   const [containerWidth, setContainerWidth] = useState(Dimensions.get('window').width);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [viewStartDate, setViewStartDate] = useState(new Date());
   const timeColumnWidth = 80;
   const actualDayWidth = (containerWidth - timeColumnWidth) / 7;
 
@@ -63,6 +70,78 @@ const Appointment: React.FC = () => {
   const startOfWeek = new Date(currentDate);
   startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
 
+  const filterAppointments = () => {
+    const start = new Date(viewStartDate);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+
+    return rawAppointments
+      .filter(({ name, date }) =>
+        name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        date.includes(searchQuery)
+      )
+      .filter(({ date }) => {
+        const apptDate = new Date(date);
+        return apptDate >= start && apptDate <= end;
+      })
+      .reduce((groups, appt) => {
+        const apptDate = new Date(appt.date);
+        const today = new Date();
+        const tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
+
+        const isSameDay = (a: Date, b: Date) =>
+          a.toDateString() === b.toDateString();
+
+        let key = 'Upcoming';
+        if (isSameDay(apptDate, today)) key = 'Today';
+        else if (isSameDay(apptDate, tomorrow)) key = 'Tomorrow';
+
+        groups[key] = groups[key] || [];
+        groups[key].push(appt);
+        return groups;
+      }, {} as Record<string, typeof rawAppointments>);
+  };
+  const isSameDay = (a: Date, b: Date) => a.toDateString() === b.toDateString();
+
+  const getLabel = (date: Date) => {
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+    if (isSameDay(date, today)) return 'Today';
+    if (isSameDay(date, tomorrow)) return 'Tomorrow';
+    return date.toLocaleDateString('default', { weekday: 'long', month: 'short', day: 'numeric' });
+  };
+
+  const get7DayAppointments = () => {
+    const start = new Date(viewStartDate);
+    const days: Record<string, typeof rawAppointments> = {};
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(start);
+      d.setDate(start.getDate() + i);
+      const label = getLabel(d);
+      days[label] = [];
+    }
+    rawAppointments.forEach(appt => {
+      const apptDate = new Date(appt.date);
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(viewStartDate);
+        d.setDate(d.getDate() + i);
+        if (isSameDay(apptDate, d)) {
+          const label = getLabel(d);
+          if (
+            appt.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            appt.date.includes(searchQuery)
+          ) {
+            days[label].push(appt);
+          }
+        }
+      }
+    });
+    return days;
+  };
+
+  const appointmentGroups = get7DayAppointments();
   return (
     <SafeAreaView style={styles.container} onLayout={handleLayout}>
       <StatusBar style="dark" />
@@ -91,22 +170,61 @@ const Appointment: React.FC = () => {
       </View>
 
       {!showCalendar ? (
-        <View style={styles.appointmentCard}>
-          <Text style={styles.sectionTitle}>All Appointments</Text>
+        <>
+          <View style={styles.headerRow}>
+            <TouchableOpacity onPress={() => setViewStartDate(prev => {
+              const newDate = new Date(prev);
+              newDate.setDate(newDate.getDate() - 7);
+              return newDate;
+            })}>
+              <Ionicons name="arrow-back" size={20} color="#2563eb" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setViewStartDate(prev => {
+              const newDate = new Date(prev);
+              newDate.setDate(newDate.getDate() + 7);
+              return newDate;
+            })}>
+              <Ionicons name="arrow-forward" size={20} color="#2563eb" />
+            </TouchableOpacity>
+          </View>
+
+          <TextInput
+            placeholder="Search by name or date"
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            style={{
+              margin: 16,
+              padding: 10,
+              backgroundColor: '#fff',
+              borderRadius: 8,
+              borderColor: '#ccc',
+              borderWidth: 1,
+            }}
+          />
+
           <ScrollView>
-            {rawAppointments.map((appt, idx) => (
-              <View key={idx} style={styles.appointmentRow}>
-                <View>
-                  <Text style={styles.appointmentTime}>{`${appt.date} ${appt.time} - ${appt.name}`}</Text>
-                  <Text style={styles.appointmentType}>{appt.type}</Text>
-                </View>
-                <View style={[styles.statusBadge, styles[`status${appt.status}`]]}>
-                  <Text style={styles.statusText}>{appt.status}</Text>
-                </View>
+            {Object.entries(appointmentGroups).map(([label, group]) => (
+              <View key={label} style={styles.appointmentCard}>
+                <Text style={styles.sectionTitle}>{label}</Text>
+                {group.length > 0 ? (
+                  group.map((appt, idx) => (
+                    <View key={idx} style={styles.appointmentRow}>
+                      <View>
+                        <Text style={styles.appointmentTime}>{`${appt.date} ${appt.time} - ${appt.name}`}</Text>
+                        <Text style={styles.appointmentType}>{appt.type}</Text>
+                      </View>
+                      <View style={[styles.statusBadge, styles[`status${appt.status}`]]}>
+                        <Text style={styles.statusText}>{appt.status}</Text>
+                      </View>
+                    </View>
+                  ))
+                ) : (
+                  <Text style={{ color: '#888', paddingVertical: 6 }}>No appointments</Text>
+                )}
               </View>
             ))}
           </ScrollView>
-        </View>
+        </>
       ) : (
         <>
           <View style={styles.viewSwitcher}>

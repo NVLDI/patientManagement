@@ -8,7 +8,7 @@ import NotFound from './src/pages/NotFound/NotFound';
 //Doctor Dashboard
 
 import DoctorLayout from './src/layouts/DoctorLayout/DoctorLayout';
-import AppointmentList from './src/features/doctor/pages/Appointments/AppointmentList';
+import AppointmentList from './src/features/doctor/pages/Appointments/Appointment';
 import PatientRecord from './src/features/doctor/pages/Patients/PatientRecord';
 import PatientDetails from './src/features/doctor/pages/Patients/PatientDetails';
 import PatientPrescriptionList from './src/features/doctor/pages/Prescriptions/PatientPrescriptionList';
