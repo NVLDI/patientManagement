@@ -1,11 +1,11 @@
-// components/Modals/NewAppointmentModal.tsx
 import React, { useState } from 'react';
 import { Modal, View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
 import { newAppointmentModalStyles as styles } from './NewAppointmentModal.style';
 
 const NewAppointmentModal = ({ visible, onClose, onAdd }) => {
-  const [name, setName] = useState('');
+  const [patientID, setPatientID] = useState('');
+  const [name, setName] = useState(''); // still used for display
   const [procedure, setProcedure] = useState('');
   const [date, setDate] = useState(undefined);
   const [time, setTime] = useState(undefined);
@@ -14,10 +14,11 @@ const NewAppointmentModal = ({ visible, onClose, onAdd }) => {
   const [showTimePicker, setShowTimePicker] = useState(false);
 
   const handleAdd = () => {
-    if (name && date && time && procedure) {
+    if (patientID && name && procedure && date && time) {
       const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
       const formattedTime = `${String(time.hours).padStart(2, '0')}:${String(time.minutes).padStart(2, '0')} ${time.hours >= 12 ? 'PM' : 'AM'}`;
-      onAdd({ name, procedure, date: formattedDate, time: formattedTime });
+      onAdd({ patientID, name, procedure, date: formattedDate, time: formattedTime });
+      setPatientID('');
       setName('');
       setProcedure('');
       setDate(undefined);
@@ -50,11 +51,24 @@ const NewAppointmentModal = ({ visible, onClose, onAdd }) => {
             </TouchableOpacity>
           </View>
 
+          {/* Patient ID Input */}
+          <TextInput
+            placeholder="Patient ID"
+            value={patientID}
+            onChangeText={text => {
+              setPatientID(text);
+              // Optional: Lookup logic to set name
+              // setName(fetchPatientNameById(text));
+            }}
+            style={styles.input}
+          />
+
+          {/* Read-only Patient Name */}
           <TextInput
             placeholder="Patient Name"
             value={name}
-            onChangeText={setName}
-            style={styles.input}
+            editable={false}
+            style={[styles.input, { backgroundColor: '#f0f0f0', color: '#555' }]}
           />
 
           <TextInput
