@@ -19,7 +19,7 @@ import Prescriptions from '../../features/doctor/pages/Prescriptions/PatientPres
 import Analytics from '../../features/doctor/pages/Reports/AnalyticsDashboard';
 import PatientBilling from '../../features/doctor/pages/Bills/Bills';
 import TopBar from '../../components/common/TopBar/TopBar';
-import NotificationModal from '../../components/common/Modals/NotificationModal'; // ✅ NEW
+import NotificationModal from '../../components/common/Modals/NotificationModal';
 import { styles } from './DoctorLayout.style';
 
 const notificationsGroupedByPatient = {
@@ -31,38 +31,40 @@ const notificationsGroupedByPatient = {
     { id: 'n3', text: 'Upcoming surgery scheduled', time: '1 hour ago' },
   ],
 };
+
 type DoctorLayoutProps = {
   onLogout: () => void;
 };
+
 const DoctorLayout: React.FC<DoctorLayoutProps> = ({ onLogout }) => {
-  const navigation = useNavigation(); // ✅ This line was missing
+  const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width;
   const drawerWidth = 250;
-  const closedOffset = -(drawerWidth * 0.8);
+  const collapsedWidth = 60;
   const isMobile = screenWidth < 768;
 
   const [currentTab, setCurrentTab] = useState('Dashboard');
   const [isDrawerVisible, setIsDrawerVisible] = useState(true);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-
   const [selectedPatientId, setSelectedPatientId] = useState(null);
   const [selectedPatientNotifications, setSelectedPatientNotifications] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const slideAnim = useRef(new Animated.Value(0)).current;
-  const contentMargin = useRef(new Animated.Value(250)).current;
+
+  const contentMargin = useRef(new Animated.Value(drawerWidth)).current;
   const dropdownAnim = useRef(new Animated.Value(0)).current;
+const drawerWidthAnim = useRef(new Animated.Value(drawerWidth)).current;
 
   useEffect(() => {
-    Animated.timing(slideAnim, {
-      toValue: isDrawerVisible ? 0 : isMobile ? -drawerWidth : closedOffset,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
+  Animated.timing(drawerWidthAnim, {
+    toValue: isDrawerVisible ? drawerWidth : collapsedWidth,
+    duration: 300,
+    useNativeDriver: false,
+  }).start();
 
     Animated.timing(contentMargin, {
-      toValue: isDrawerVisible ? 250 : 50,
+      toValue: isDrawerVisible ? drawerWidth : collapsedWidth,
       duration: 300,
       useNativeDriver: false,
     }).start();
@@ -174,22 +176,16 @@ const DoctorLayout: React.FC<DoctorLayoutProps> = ({ onLogout }) => {
           ]}
         >
           <View style={profileStyles.arrow} />
-          <TouchableOpacity style={profileStyles.menuItem}
-          onPress={() => navigation.navigate('Profile')}>
+          <TouchableOpacity style={profileStyles.menuItem} onPress={() => navigation.navigate('Profile')}>
             <Text style={profileStyles.menuText}>👤 Profile</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={profileStyles.menuItem}
-          onPress={() => navigation.navigate('Settings')}>
+          <TouchableOpacity style={profileStyles.menuItem} onPress={() => navigation.navigate('Settings')}>
             <Text style={profileStyles.menuText}>⚙️ Settings</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={profileStyles.menuItem}
-           onPress={() => {
-    closeAllDropdowns();
-    console.log('🚪 Logout button clicked');
-    console.log('🚪 onLogout() triggered immediately');
-    onLogout(); // <-- directly log out without Alert
-  }}
->
+          <TouchableOpacity style={profileStyles.menuItem} onPress={() => {
+            closeAllDropdowns();
+            onLogout();
+          }}>
             <Text style={profileStyles.menuText}>🚪 Logout</Text>
           </TouchableOpacity>
         </Animated.View>
@@ -235,32 +231,36 @@ const DoctorLayout: React.FC<DoctorLayoutProps> = ({ onLogout }) => {
             onHoverOut={() => !isMobile && setIsDrawerVisible(false)}
             style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: drawerWidth }}
           >
-            <Animated.View
-              style={[styles.drawerContainer, { transform: [{ translateX: slideAnim }] }]}
-            >
+            <Animated.View style={[styles.drawerContainer, { width: drawerWidthAnim }]}>
+
               <View style={styles.logoContainer}>
                 <Text style={styles.logoIcon}>🏥</Text>
               </View>
               <View style={styles.navItemsContainer}>
                 {navItems.map((item) => (
                   <TouchableOpacity
-                    key={item.id}
-                    style={[
-                      styles.navItem,
-                      currentTab === item.label && styles.activeNavItem,
-                    ]}
-                    onPress={() => setCurrentTab(item.label)}
-                  >
-                    <Text style={styles.navIcon}>{item.icon}</Text>
-                    <Text
-                      style={[
-                        styles.navLabel,
-                        currentTab === item.label && styles.activeNavLabel,
-                      ]}
-                    >
-                      {item.label}
-                    </Text>
-                  </TouchableOpacity>
+  key={item.id}
+  style={[
+    styles.navItem,
+    currentTab === item.label && styles.activeNavItem,
+    !isDrawerVisible && {
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: 0,
+      paddingVertical: 20,
+      paddingHorizontal: 0,
+    }
+  ]}
+  onPress={() => setCurrentTab(item.label)}
+>
+  <Text style={styles.navIcon}>{item.icon}</Text>
+  {isDrawerVisible && (
+    <Text style={[styles.navLabel, currentTab === item.label && styles.activeNavLabel]}>
+      {item.label}
+    </Text>
+  )}
+</TouchableOpacity>
                 ))}
               </View>
             </Animated.View>

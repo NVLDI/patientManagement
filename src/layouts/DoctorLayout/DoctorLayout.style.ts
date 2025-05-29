@@ -53,10 +53,12 @@ export const styles = StyleSheet.create({
   },
   navIcon: {
     fontSize: 22,
-    marginRight: 15,
+    marginRight: 0, 
+     textAlign: 'center',
   },
   navLabel: {
     fontSize: 16,
+     marginLeft: 15, 
     color: '#333',
   },
   activeNavLabel: {
