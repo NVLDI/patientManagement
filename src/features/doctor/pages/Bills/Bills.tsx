@@ -1,13 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Modal, Pressable, TouchableOpacity, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  ScrollView,
+  FlatList,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import styles from './Bills.style';
-import BillingModal from './BillingModal';
-
+import PatientDetailModal from '../../../../components/common/Modals/PatientDetailModal';
 const mockPatients = [
-  { id: 'P001', name: 'John Doe' },
-  { id: 'P002', name: 'Emma Lee' },
-  { id: 'P003', name: 'Alex Roy' },
-   { id: 'P004', name: 'Dinesh' },
+  { id: 'P001', name: 'John Doe', dob: '1990-01-01', gender: 'Male' },
+  { id: 'P002', name: 'Emma Lee', dob: '1992-03-12', gender: 'Female' },
+  { id: 'P003', name: 'Alex Roy', dob: '1985-06-25', gender: 'Male' },
+  { id: 'P004', name: 'Dinesh Kumar', dob: '1993-11-15', gender: 'Male' },
+  { id: 'P005', name: 'Priya Sharma', dob: '1991-08-09', gender: 'Female' },
+  { id: 'P006', name: 'Ravi Teja', dob: '1987-07-19', gender: 'Male' },
+  { id: 'P007', name: 'Nikita Jain', dob: '1995-02-28', gender: 'Female' },
+  { id: 'P008', name: 'Arun Mehta', dob: '1989-04-03', gender: 'Male' },
+  { id: 'P009', name: 'Sneha Rao', dob: '1996-09-22', gender: 'Female' },
+  { id: 'P010', name: 'Vikram Singh', dob: '1984-12-10', gender: 'Male' },
 ];
 
 const patientBills = {
@@ -16,12 +29,14 @@ const patientBills = {
     { date: 'March 15, 2025', title: 'Consultation, Amoxicillin Prescription', unpaid: 950 },
   ],
   P002: [{ date: 'April 1, 2025', title: 'X-ray & Diagnosis', paid: 1000 }],
+  P004: [{ date: 'May 1, 2025', title: 'Scaling & Polishing', unpaid: 750 }],
 };
 
 const Bills = () => {
   const [search, setSearch] = useState('');
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [detailModalVisible, setDetailModalVisible] = useState(false);
 
   const filteredPatients = mockPatients.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
@@ -29,62 +44,43 @@ const Bills = () => {
 
   return (
     <ScrollView style={styles.card}>
-      {/* Search Patient */}
-      <Text style={styles.sectionTitle}>Search Patient</Text>
+      <Text style={styles.sectionTitle}>Patients</Text>
       <TextInput
-        placeholder="Enter patient name"
+        placeholder="Search patient by name..."
         value={search}
         onChangeText={setSearch}
         style={styles.inputField}
       />
-      {search.length > 0 && (
-        <FlatList
-          data={filteredPatients}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => { setSelectedPatient(item); setSearch(''); }}>
-              <Text style={{ padding: 8, backgroundColor: '#f0f0f0' }}>{item.name}</Text>
-            </TouchableOpacity>
-          )}
-        />
-      )}
 
-      {/* Selected Patient & Billing */}
-      {selectedPatient && (
-        <>
-          <View style={styles.headerRow}>
-            <Text style={styles.sectionTitle}>Billing: {selectedPatient.name}</Text>
-            <Pressable style={styles.newInvoiceButton} onPress={() => setIsModalVisible(true)}>
-              <Text style={styles.newInvoiceButtonText}>+ New Invoice</Text>
-            </Pressable>
-          </View>
+      <FlatList
+        data={filteredPatients}
+        keyExtractor={(item) => item.id}
+        style={{ marginTop: 16 }}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.patientCard}
+            onPress={() => {
+              setSelectedPatient(item);
+              setDetailModalVisible(true);
+            }}
+          >
+            <Text style={styles.patientName}>{item.name}</Text>
+            <Text style={styles.patientDetails}>
+              DOB: {item.dob} | Gender: {item.gender}
+            </Text>
+          </TouchableOpacity>
+        )}
+      />
 
-          <Text style={styles.outstandingBalance}>💰 Outstanding Balance: ₹950</Text>
-
-          {/* Invoice List */}
-          <View style={styles.invoiceList}>
-            {(patientBills[selectedPatient.id] || []).map((inv, idx) => (
-              <View key={idx} style={styles.invoiceItem}>
-                <Text style={styles.invoiceDate}>{inv.date}</Text>
-                <Text style={styles.invoiceTitle}>{inv.title}</Text>
-                {inv.paid && <Text style={styles.invoiceAmountPaid}>₹{inv.paid} Paid</Text>}
-                {inv.unpaid && <Text style={styles.invoiceAmountUnpaid}>₹{inv.unpaid} Unpaid</Text>}
-              </View>
-            ))}
-          </View>
-        </>
-      )}
-
-      {/* Billing Modal */}
-      <BillingModal
-        visible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
+      {/* Patient Detail Modal */}
+      <PatientDetailModal
+        visible={detailModalVisible}
+        onClose={() => setDetailModalVisible(false)}
         patient={selectedPatient}
+        bills={patientBills[selectedPatient?.id] || []}
       />
     </ScrollView>
   );
 };
 
 export default Bills;
-// import styles from './Bills.style';
-// import BillingModal from './BillingModal';

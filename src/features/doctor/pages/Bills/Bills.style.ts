@@ -197,6 +197,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  patientCard: {
+  backgroundColor: '#ffffff',
+  padding: 16,
+  borderRadius: 8,
+  borderWidth: 1,
+  borderColor: '#e5e7eb',
+  marginBottom: 12,
+},
+patientName: {
+  fontSize: 18,
+  fontWeight: '600',
+},
+patientDetails: {
+  color: '#374151',
+},
+
 });
 
 export default styles;
