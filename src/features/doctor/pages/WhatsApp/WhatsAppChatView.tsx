@@ -1,15 +1,16 @@
-// WhatsApp/WhatsAppChatView.tsx
 import React, { useState } from 'react';
 import {
   View,
   TextInput,
-  Button,
   FlatList,
   Text,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
+import { Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons'; // If using Expo
 
 const WhatsAppChatView = ({ contact }) => {
   const [messages, setMessages] = useState([]);
@@ -22,16 +23,40 @@ const WhatsAppChatView = ({ contact }) => {
     }
   };
 
+  if (!contact) {
+    return <View style={styles.container} />;
+  }
+
   return (
     <KeyboardAvoidingView
-      style={chatStyles.container}
+      style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
+      {/* Top Bar */}
+      <View style={styles.topBar}>
+        <View style={styles.profileSection}>
+          <Image source={{ uri: contact.avatar }} style={styles.avatar} />
+          <Text style={styles.name}>{contact.name}</Text>
+        </View>
+        <View style={styles.icons}>
+          <TouchableOpacity style={styles.iconBtn}>
+            <Ionicons name="videocam" size={22} color="#333" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconBtn}>
+            <Ionicons name="search" size={22} color="#333" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconBtn}>
+            <Entypo name="dots-three-vertical" size={18} color="#333" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Messages */}
       <FlatList
         data={messages}
         renderItem={({ item }) => (
           <Text
-            style={item.from === 'doctor' ? chatStyles.doctor : chatStyles.patient}
+            style={item.from === 'doctor' ? styles.doctor : styles.patient}
           >
             {item.text}
           </Text>
@@ -39,24 +64,59 @@ const WhatsAppChatView = ({ contact }) => {
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ padding: 10 }}
       />
-      <View style={chatStyles.inputRow}>
+
+      {/* Input */}
+      <View style={styles.inputRow}>
         <TextInput
           value={text}
           onChangeText={setText}
-          style={chatStyles.input}
+          style={styles.input}
           placeholder="Type a message..."
           placeholderTextColor="#999"
         />
-        <Button title="Send" onPress={sendMessage} />
+        <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
+          <Text style={{ color: '#fff' }}>Send</Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
 };
 
-const chatStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
+  },
+  topBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    backgroundColor: '#f9f9f9',
+  },
+  profileSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatar: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    marginRight: 10,
+  },
+  name: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: '#111',
+  },
+  icons: {
+    flexDirection: 'row',
+  },
+  iconBtn: {
+    marginLeft: 18,
   },
   inputRow: {
     flexDirection: 'row',
@@ -74,8 +134,14 @@ const chatStyles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 8,
     marginRight: 10,
-    color: '#000',
     backgroundColor: '#fff',
+    color: '#000',
+  },
+  sendButton: {
+    backgroundColor: '#25d366',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
   },
   doctor: {
     alignSelf: 'flex-end',

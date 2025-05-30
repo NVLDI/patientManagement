@@ -209,7 +209,7 @@ const labelOpacityAnim = useRef(new Animated.Value(1)).current;
     { id: 'prescription', icon: '💊', label: 'Prescription' },
     { id: 'analytics', icon: '📈', label: 'Analytics' },
     { id: 'bills', icon: '💵', label: 'Bills' },
-    { id: 'WhatsAppChatView', icon: '💬', label: 'Whatsapp' },
+    { id: 'Messanger', icon: '💬', label: 'Messanger' },
   ];
 
   return (
@@ -292,7 +292,7 @@ const labelOpacityAnim = useRef(new Animated.Value(1)).current;
               {currentTab === 'Prescription' && <Prescriptions />}
               {currentTab === 'Analytics' && <Analytics />}
               {currentTab === 'Bills' && <PatientBilling />}
-              {currentTab === 'Whatsapp' && <ChatLayout/>}
+              {currentTab === 'Messanger' && <ChatLayout/>}
             </ScrollView>
           </Animated.View>
         </View>
