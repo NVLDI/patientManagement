@@ -18,6 +18,7 @@ import Patients from '../../features/doctor/pages/Patients/PatientRecord';
 import Prescriptions from '../../features/doctor/pages/Prescriptions/PatientPrescriptionList';
 import Analytics from '../../features/doctor/pages/Reports/AnalyticsDashboard';
 import PatientBilling from '../../features/doctor/pages/Bills/Bills';
+import ChatLayout from '../../features/doctor/pages/WhatsApp/ChatLayout';
 import TopBar from '../../components/common/TopBar/TopBar';
 import NotificationModal from '../../components/common/Modals/NotificationModal';
 import { styles } from './DoctorLayout.style';
@@ -208,7 +209,7 @@ const labelOpacityAnim = useRef(new Animated.Value(1)).current;
     { id: 'prescription', icon: '💊', label: 'Prescription' },
     { id: 'analytics', icon: '📈', label: 'Analytics' },
     { id: 'bills', icon: '💵', label: 'Bills' },
-    { id: 'whatsapp', icon: '💬', label: 'Whatsapp' },
+    { id: 'WhatsAppChatView', icon: '💬', label: 'Whatsapp' },
   ];
 
   return (
@@ -291,6 +292,7 @@ const labelOpacityAnim = useRef(new Animated.Value(1)).current;
               {currentTab === 'Prescription' && <Prescriptions />}
               {currentTab === 'Analytics' && <Analytics />}
               {currentTab === 'Bills' && <PatientBilling />}
+              {currentTab === 'Whatsapp' && <ChatLayout/>}
             </ScrollView>
           </Animated.View>
         </View>
