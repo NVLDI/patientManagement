@@ -23,3 +23,5 @@ Step 8: Open terminal in VS Code and run the command `npm install expo`
 Step 9: Check if expo is installed correctly by running the command `npm list expo`
 
 Step 10: Start the web app by running the command `npx expo start` then press `w` for web from the options, the browser will open with the web app
+
+Note: To recieve the latest updates in the code run the command `git pull` in the terminal to update the code base, execute `npm install` to update the packages and run `npx expo start` then refresh the page for latest update.
