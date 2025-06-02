@@ -1,5 +1,5 @@
 // --path: src/features/auth/pages/Login/Login.tsx
-import React, { useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,12 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  NativeSyntheticEvent,
+  TextInputKeyPressEventData,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './Login.style';
-import WelcomeSplash from '../../../../components/common/Splash/WelcomeSplash'; // ✅ Import
+import WelcomeSplash from '../../../../components/common/Splash/WelcomeSplash';
 
 type LoginProps = {
   onClose: () => void;
@@ -27,10 +29,11 @@ const mockUsers = {
 };
 
 const Login: React.FC<LoginProps> = ({ onClose, onForgotPassword, onLoginSuccess }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('doctor');
+  const [password, setPassword] = useState('Doctor@123');
   const [loading, setLoading] = useState(false);
   const [showSplash, setShowSplash] = useState(false);
+  const passwordRef = useRef<TextInput>(null);
 
   const handleLogin = () => {
     setLoading(true);
@@ -48,6 +51,18 @@ const Login: React.FC<LoginProps> = ({ onClose, onForgotPassword, onLoginSuccess
       }
       setLoading(false);
     }, 1000);
+  };
+useEffect(() => {
+  const timer = setTimeout(() => {
+    passwordRef.current?.focus(); // 👈 Automatically focus on mount
+  }, 300); // slight delay ensures UI is ready
+
+  return () => clearTimeout(timer);
+}, []);
+  const handleKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+    if (e.nativeEvent.key === 'Enter') {
+      handleLogin();
+    }
   };
 
   return (
@@ -74,17 +89,24 @@ const Login: React.FC<LoginProps> = ({ onClose, onForgotPassword, onLoginSuccess
             style={styles.input}
             keyboardType="default"
             autoCapitalize="none"
+            returnKeyType="next"
             onChangeText={setEmail}
             value={email}
+            onSubmitEditing={() => passwordRef.current?.focus()}
           />
 
           <TextInput
+            ref={passwordRef}
             placeholder="Password"
             placeholderTextColor="#999"
             style={styles.input}
             secureTextEntry
+            returnKeyType="done"
             onChangeText={setPassword}
             value={password}
+            onSubmitEditing={handleLogin}
+            onKeyPress={handleKeyPress}
+            blurOnSubmit={false}
           />
 
           <TouchableOpacity onPress={handleLogin} style={styles.button} disabled={loading}>
