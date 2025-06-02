@@ -3,7 +3,7 @@ name: Conditional Amplify Deploy
 on:
   push:
     branches:
-      - new  # Or the branch you linked to Amplify
+      - new
 
 jobs:
   deploy:
@@ -21,10 +21,9 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}   # Use the correct secret name
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
       - name: Deploy to Amplify
         run: |
-          amplify pull --yes --appId d3730jg75e86kf --envName new
-          amplify publish --yes
+          amplify publish --yes --appId d3730jg75e86kf --envName new
