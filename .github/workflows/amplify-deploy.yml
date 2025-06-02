@@ -26,4 +26,5 @@ jobs:
 
       - name: Deploy to Amplify
         run: |
-          amplify publish --yes --appId d3730jg75e86kf --envName new
+          amplify pull --yes --appId d3730jg75e86kf --envName dev
+          amplify publish --yes
