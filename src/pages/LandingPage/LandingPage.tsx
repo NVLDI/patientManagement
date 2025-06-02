@@ -94,7 +94,7 @@ const LandingPage = () => {
 
           <View style={styles.footerArea}>
             <Text style={styles.footer}>
-              © 2025 WhiteSquare Medical Innovation | Crafted with care for healthcare.
+              © 2024-2025 WhiteSquare Medical Innovation | Crafted with care for healthcare.
             </Text>
           </View>
 
