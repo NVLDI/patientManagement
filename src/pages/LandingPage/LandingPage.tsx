@@ -77,7 +77,7 @@ const LandingPage = () => {
           </ImageBackground>
 
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>What We Offer</Text>
+            <Text style={styles.sectionTitle}>What We Offer following</Text>
             <Text style={styles.sectionItem}>📅 Intelligent Scheduling & Queue Management</Text>
             <Text style={styles.sectionItem}>📁 Cloud-Based Patient Documentation</Text>
             <Text style={styles.sectionItem}>💊 Integrated Medication Tracking & Alerts</Text>
