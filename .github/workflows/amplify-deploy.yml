@@ -22,7 +22,7 @@ jobs:
       - name: Install Amplify CLI and Expo CLI
         run: |
           npm install -g @aws-amplify/cli
-          npm install -g expo-cli
+          npm install -g expo
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
