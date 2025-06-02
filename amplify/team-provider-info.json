@@ -10,6 +10,11 @@
       "StackName": "amplify-patientmanagement-dev-de63e",
       "StackId": "arn:aws:cloudformation:ap-south-1:703671899809:stack/amplify-patientmanagement-dev-de63e/1bf0a520-3f98-11f0-96cc-02ca41ab5897",
       "AmplifyAppId": "d3s8al6wvw678"
+    },
+    "categories": {
+      "hosting": {
+        "S3AndCloudFront": {}
+      }
     }
   }
 }
