@@ -6,7 +6,7 @@ on:
       - new  # or your deployment branch
 
 jobs:
-  deploy-if-tagged:
+  amplify-deploy:
     runs-on: ubuntu-latest
 
     steps:
