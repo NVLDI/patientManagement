@@ -1,4 +1,4 @@
-// AppointmentCalendarToggle.tsx
+// Appointment.tsx
 import React, { useState, useEffect } from 'react';
 import {
   Text, View, TouchableOpacity, ScrollView, SafeAreaView, Dimensions, LayoutChangeEvent,TextInput,
@@ -210,7 +210,7 @@ const Appointment: React.FC = () => {
             }}
           />
 
-          <ScrollView>
+          <ScrollView testID="appointments-list">
             {Object.entries(appointmentGroups).map(([label, group]) => (
               <View key={label} style={styles.appointmentCard}>
                 <Text style={styles.sectionTitle}>{label}</Text>

@@ -1,21 +1,20 @@
-// Appointments.test.tsx
-
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import Appointments from './Appointment';
+import Appointment from './Appointment';
 
-describe('Appointments Screen', () => {
-  it('renders correctly with appointment data', () => {
-    const { getByText } = render(<Appointments />);
+jest.spyOn(console, 'error').mockImplementation((msg) => {
+  if (msg.toString().includes('act(...)')) return;
+  console.error(msg);
+});
 
-    // Update these texts to what’s actually rendered in your component
+describe('Appointment Screen', () => {
+  it('renders header', () => {
+    const { getByText } = render(<Appointment />);
     expect(getByText('Appointments')).toBeTruthy();
   });
 
-  it('does not crash when no appointments are present', () => {
-    const { getByTestId } = render(<Appointments />);
-    
-    // Assuming you have a fallback text or empty state
+  it('renders appointments list container', () => {
+    const { getByTestId } = render(<Appointment />);
     expect(getByTestId('appointments-list')).toBeTruthy();
   });
 });
