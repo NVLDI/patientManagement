@@ -16,7 +16,7 @@ type SignUpProps = {
 };
 
 const SignUp: React.FC<SignUpProps> = ({ onClose }) => {
-  const [name, setName] = useState('');
+  const [clinicName, setClinicName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -29,6 +29,7 @@ const SignUp: React.FC<SignUpProps> = ({ onClose }) => {
     }
 
     setLoading(true);
+
     setTimeout(() => {
       setLoading(false);
       alert('Account Created Successfully');
@@ -52,11 +53,11 @@ const SignUp: React.FC<SignUpProps> = ({ onClose }) => {
         <Text style={styles.subtitle}>Join WhiteSquare now</Text>
 
         <TextInput
-          placeholder="Full Name"
+          placeholder="Clinic Name"
           placeholderTextColor="#999"
           style={styles.input}
-          onChangeText={setName}
-          value={name}
+          onChangeText={setClinicName}
+          value={clinicName}
         />
 
         <TextInput
