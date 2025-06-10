@@ -1,0 +1,121 @@
+/* eslint-disable */
+// this is an auto generated file. This will be overwritten
+
+export const getClinic = /* GraphQL */ `
+  query GetClinic($id: ID!) {
+    getClinic(id: $id) {
+      id
+      name
+      email
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listClinics = /* GraphQL */ `
+  query ListClinics(
+    $filter: ModelClinicFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listClinics(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        email
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getClinicInfraMetadata = /* GraphQL */ `
+  query GetClinicInfraMetadata($id: ID!) {
+    getClinicInfraMetadata(id: $id) {
+      id
+      name
+      email
+      groupName
+      apiKey
+      apiUrl
+      tableName
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listClinicInfraMetadata = /* GraphQL */ `
+  query ListClinicInfraMetadata(
+    $filter: ModelClinicInfraMetadataFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listClinicInfraMetadata(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        email
+        groupName
+        apiKey
+        apiUrl
+        tableName
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getClinicInfraResult = /* GraphQL */ `
+  query GetClinicInfraResult($id: ID!) {
+    getClinicInfraResult(id: $id) {
+      id
+      createdAt
+      updatedAt
+      message
+      groupName
+      apiUrl
+      apiKey
+      tableName
+      __typename
+    }
+  }
+`;
+export const listClinicInfraResults = /* GraphQL */ `
+  query ListClinicInfraResults(
+    $filter: ModelClinicInfraResultFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listClinicInfraResults(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        createdAt
+        updatedAt
+        message
+        groupName
+        apiUrl
+        apiKey
+        tableName
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;

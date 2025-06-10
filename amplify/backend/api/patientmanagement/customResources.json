@@ -1,0 +1,15 @@
+{
+  "Resources": {
+    "CreateClinicLambdaInvokePermission": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": "arn:aws:lambda:ap-south-1:703671899809:function:createClinicInfrastructure",
+        "Action": "lambda:InvokeFunction",
+        "Principal": "appsync.amazonaws.com",
+        "SourceArn": {
+          "Fn::Sub": "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/*"
+        }
+      }
+    }
+  }
+}

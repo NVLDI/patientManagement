@@ -9,19 +9,31 @@
       "UnauthRoleName": "amplify-patientmanagement-dev-de63e-unauthRole",
       "StackName": "amplify-patientmanagement-dev-de63e",
       "StackId": "arn:aws:cloudformation:ap-south-1:703671899809:stack/amplify-patientmanagement-dev-de63e/1bf0a520-3f98-11f0-96cc-02ca41ab5897",
-      "AmplifyAppId": "d3s8al6wvw678"
+      "AmplifyAppId": "d3s8al6wvw678",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-patientmanagement-dev-de63e-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
       "hosting": {
         "S3AndCloudFront": {}
       },
       "auth": {
-        "patientmanagementa8e4a2dfa8e4a2df": {}
+        "patientmanagementa8e4a2dfa8e4a2df": {},
+        "userPoolGroups": {}
       },
       "function": {
         "patientmanagementa8e4a2dfa8e4a2dfPostConfirmation": {
-          "GROUP": "superAdmin"
+          "GROUP": "superAdmin",
+          "deploymentBucketName": "amplify-patientmanagement-dev-de63e-deployment",
+          "s3Key": "amplify-builds/patientmanagementa8e4a2dfa8e4a2dfPostConfirmation-5265622b4f6970626c44-build.zip"
+        },
+        "AdminQueriesdf5b1693": {
+          "deploymentBucketName": "amplify-patientmanagement-dev-de63e-deployment",
+          "s3Key": "amplify-builds/AdminQueriesdf5b1693-786f693757755a576245-build.zip"
         }
+      },
+      "api": {
+        "AdminQueries": {},
+        "patientmanagement": {}
       }
     }
   }

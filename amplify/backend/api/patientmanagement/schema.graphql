@@ -1,0 +1,50 @@
+type Clinic @model @auth(
+  rules: [{ allow: groups, groups: ["superAdmin"], operations: [create, read, update, delete] }]
+) {
+  id: ID!
+  name: String!
+  email: String
+  createdAt: AWSDateTime
+}
+
+type ClinicInfraMetadata @model 
+@auth(
+  rules: [
+    { allow: groups, groups: ["superAdmin"], operations: [create, read, delete] }
+  ]
+) {
+  id: ID!
+  name: String!
+  email: String
+  groupName: String!
+  apiKey: String!
+  apiUrl: String!
+  tableName: String!
+  createdAt: AWSDateTime
+}
+
+
+type Mutation {
+  createClinicInfrastructure(input: CreateClinicInput!): ClinicInfraResult
+    @function(name: "createClinicInfrastructure", region: "ap-south-1")
+    @auth(rules: [{ allow: groups, groups: ["superAdmin"] }])
+}
+
+input CreateClinicInput {
+  name: String!
+  email: String
+}
+
+type ClinicInfraResult  
+ @model
+ @auth(rules: [{ allow: groups, groups: ["superAdmin"], operations: [read] }])
+{
+  id: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  message: String
+  groupName: String
+  apiUrl: String
+  apiKey: String
+  tableName: String
+}

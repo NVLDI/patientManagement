@@ -1,6 +1,13 @@
 {
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "types": ["jest"]
-  },
-  "extends": "expo/tsconfig.base"
+    "types": ["jest"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true
+  }
 }

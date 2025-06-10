@@ -21,6 +21,37 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
+    },
+    "patientmanagement": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "patientmanagementa8e4a2dfa8e4a2df"
+        }
+      ],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authpatientmanagementa8e4a2dfa8e4a2df"
+              }
+            }
+          ],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            },
+            "authenticationType": "API_KEY"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
     }
   },
   "auth": {
@@ -106,7 +137,39 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_AdminQueriesdf5b1693_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueriesdf5b1693"
+        }
+      ]
+    },
+    "AMPLIFY_function_AdminQueriesdf5b1693_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueriesdf5b1693"
+        }
+      ]
+    },
     "AMPLIFY_function_patientmanagementa8e4a2dfa8e4a2dfPostConfirmation_GROUP": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "patientmanagementa8e4a2dfa8e4a2dfPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_patientmanagementa8e4a2dfa8e4a2dfPostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "patientmanagementa8e4a2dfa8e4a2dfPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_patientmanagementa8e4a2dfa8e4a2dfPostConfirmation_s3Key": {
       "usedBy": [
         {
           "category": "function",
