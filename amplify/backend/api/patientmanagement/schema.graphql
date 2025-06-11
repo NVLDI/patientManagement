@@ -47,4 +47,17 @@ type ClinicInfraResult
   apiUrl: String
   apiKey: String
   tableName: String
+  bucketName: String
+}
+type BillingRecord @model
+@auth(rules: [{ allow: groups, groups: ["superAdmin"], operations: [read, update] }]) {
+  id: ID!
+  clinicId: ID!
+  clinicName: String!
+  apiCalls: Int!
+  dbReads: Int!
+  dbWrites: Int!
+  s3UsageMB: Float!
+  totalAmount: Float!
+  createdAt: AWSDateTime!
 }

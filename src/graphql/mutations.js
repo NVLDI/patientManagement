@@ -34,6 +34,7 @@ export const createClinicInfraResult = /* GraphQL */ `
       apiUrl
       apiKey
       tableName
+      bucketName
       __typename
     }
   }
@@ -52,6 +53,7 @@ export const updateClinicInfraResult = /* GraphQL */ `
       apiUrl
       apiKey
       tableName
+      bucketName
       __typename
     }
   }
@@ -70,6 +72,47 @@ export const deleteClinicInfraResult = /* GraphQL */ `
       apiUrl
       apiKey
       tableName
+      bucketName
+      __typename
+    }
+  }
+`;
+export const createBillingRecord = /* GraphQL */ `
+  mutation CreateBillingRecord(
+    $input: CreateBillingRecordInput!
+    $condition: ModelBillingRecordConditionInput
+  ) {
+    createBillingRecord(input: $input, condition: $condition) {
+      id
+      clinicId
+      clinicName
+      apiCalls
+      dbReads
+      dbWrites
+      s3UsageMB
+      totalAmount
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteBillingRecord = /* GraphQL */ `
+  mutation DeleteBillingRecord(
+    $input: DeleteBillingRecordInput!
+    $condition: ModelBillingRecordConditionInput
+  ) {
+    deleteBillingRecord(input: $input, condition: $condition) {
+      id
+      clinicId
+      clinicName
+      apiCalls
+      dbReads
+      dbWrites
+      s3UsageMB
+      totalAmount
+      createdAt
+      updatedAt
       __typename
     }
   }
@@ -157,6 +200,26 @@ export const deleteClinicInfraMetadata = /* GraphQL */ `
     }
   }
 `;
+export const updateBillingRecord = /* GraphQL */ `
+  mutation UpdateBillingRecord(
+    $input: UpdateBillingRecordInput!
+    $condition: ModelBillingRecordConditionInput
+  ) {
+    updateBillingRecord(input: $input, condition: $condition) {
+      id
+      clinicId
+      clinicName
+      apiCalls
+      dbReads
+      dbWrites
+      s3UsageMB
+      totalAmount
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createClinicInfrastructure = /* GraphQL */ `
   mutation CreateClinicInfrastructure($input: CreateClinicInput!) {
     createClinicInfrastructure(input: $input) {
@@ -168,6 +231,7 @@ export const createClinicInfrastructure = /* GraphQL */ `
       apiUrl
       apiKey
       tableName
+      bucketName
       __typename
     }
   }

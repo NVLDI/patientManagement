@@ -88,6 +88,7 @@ export const getClinicInfraResult = /* GraphQL */ `
       apiUrl
       apiKey
       tableName
+      bucketName
       __typename
     }
   }
@@ -112,6 +113,49 @@ export const listClinicInfraResults = /* GraphQL */ `
         apiUrl
         apiKey
         tableName
+        bucketName
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getBillingRecord = /* GraphQL */ `
+  query GetBillingRecord($id: ID!) {
+    getBillingRecord(id: $id) {
+      id
+      clinicId
+      clinicName
+      apiCalls
+      dbReads
+      dbWrites
+      s3UsageMB
+      totalAmount
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listBillingRecords = /* GraphQL */ `
+  query ListBillingRecords(
+    $filter: ModelBillingRecordFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBillingRecords(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        clinicId
+        clinicName
+        apiCalls
+        dbReads
+        dbWrites
+        s3UsageMB
+        totalAmount
+        createdAt
+        updatedAt
         __typename
       }
       nextToken

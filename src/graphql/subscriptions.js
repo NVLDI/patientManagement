@@ -104,6 +104,7 @@ export const onCreateClinicInfraResult = /* GraphQL */ `
       apiUrl
       apiKey
       tableName
+      bucketName
       __typename
     }
   }
@@ -121,6 +122,7 @@ export const onUpdateClinicInfraResult = /* GraphQL */ `
       apiUrl
       apiKey
       tableName
+      bucketName
       __typename
     }
   }
@@ -138,6 +140,64 @@ export const onDeleteClinicInfraResult = /* GraphQL */ `
       apiUrl
       apiKey
       tableName
+      bucketName
+      __typename
+    }
+  }
+`;
+export const onCreateBillingRecord = /* GraphQL */ `
+  subscription OnCreateBillingRecord(
+    $filter: ModelSubscriptionBillingRecordFilterInput
+  ) {
+    onCreateBillingRecord(filter: $filter) {
+      id
+      clinicId
+      clinicName
+      apiCalls
+      dbReads
+      dbWrites
+      s3UsageMB
+      totalAmount
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateBillingRecord = /* GraphQL */ `
+  subscription OnUpdateBillingRecord(
+    $filter: ModelSubscriptionBillingRecordFilterInput
+  ) {
+    onUpdateBillingRecord(filter: $filter) {
+      id
+      clinicId
+      clinicName
+      apiCalls
+      dbReads
+      dbWrites
+      s3UsageMB
+      totalAmount
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteBillingRecord = /* GraphQL */ `
+  subscription OnDeleteBillingRecord(
+    $filter: ModelSubscriptionBillingRecordFilterInput
+  ) {
+    onDeleteBillingRecord(filter: $filter) {
+      id
+      clinicId
+      clinicName
+      apiCalls
+      dbReads
+      dbWrites
+      s3UsageMB
+      totalAmount
+      createdAt
+      updatedAt
       __typename
     }
   }
