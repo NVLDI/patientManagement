@@ -1,4 +1,8 @@
 import { registerRootComponent } from 'expo';
+import 'react-native-gesture-handler';
+import 'react-native-reanimated';
+import 'react-native-paper';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 import App from './App';
 

@@ -24,11 +24,12 @@
     "expo-av": "~15.1.4",
     "expo-linking": "^7.1.5",
     "expo-print": "~14.1.4",
+    "expo-secure-store": "^14.2.3",
     "expo-sharing": "~13.1.5",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "react-native": "0.79.2",
+    "react-native": "0.79.4",
     "react-native-calendars": "^1.1312.1",
     "react-native-chart-kit": "^6.12.0",
     "react-native-gesture-handler": "~2.24.0",
@@ -38,7 +39,7 @@
     "react-native-picker-select": "^9.3.1",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
-    "react-native-screens": "~4.10.0",
+    "react-native-screens": "~4.11.1",
     "react-native-svg": "15.11.2",
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "^0.20.0"
@@ -63,5 +64,17 @@
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|@react-native|@react-navigation|expo(nent)?|@expo(nent)?/.*|expo-modules-core)"
     ]
+  },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "react-native-chart-kit",
+          "@aws-amplify/api-graphql",
+          "react-native-vector-icons"
+        ],
+        "listUnknownPackages": false
+      }
+    }
   }
 }
