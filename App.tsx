@@ -11,6 +11,9 @@ import SuperLogin from './src/WhiteSquareAuth/super-login.tsx';
 import SuperRegister from './src/WhiteSquareAuth/super-register.tsx';
 import SuperDashboard from './src/WhiteSquareAuth/super-dashboard.tsx';
 
+// Clinic Login
+import ClinicLogin from './src/Clinics/ClinicLoginScreen.tsx';
+import ClinicDashboard from './src/Clinics/ClinicDashboard/ClinicDashboard.tsx';
 // Landing
 import LandingPage from './src/pages/LandingPage/LandingPage.tsx';
 import NotFound from './src/pages/NotFound/NotFound.tsx';
@@ -65,6 +68,9 @@ const linking = {
       SuperRegister: 'SuperRegister',
       SuperDashboard: 'SuperDashboard',
 
+      // Clinic Login
+      ClinicLogin: 'ClinicLogin',
+      ClinicDashboard: 'ClinicDashboard',
       // Doctor
       DoctorDashboard: 'DoctorDashboard',
       DoctorLayout: 'DoctorLayout',
@@ -114,6 +120,10 @@ export default function App() {
         <Stack.Screen name="SuperLogin" component={SuperLogin} options={{ headerShown: false }} />
         <Stack.Screen name="SuperRegister" component={SuperRegister} options={{ headerShown: false }} />
         <Stack.Screen name="SuperDashboard" component={SuperDashboard} options={{ headerShown: false }} />
+
+        {/* Clinic Login */}
+        <Stack.Screen name="ClinicLogin" component={ClinicLogin} options={{ headerShown: false }} />
+        <Stack.Screen name="ClinicDashboard" component={ClinicDashboard} options={{ headerShown: false }} />
 
         {/* Doctor */}
         <Stack.Screen name="DoctorDashboard" component={DoctorDashboard} options={{ headerShown: false }} />
