@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, Pressable } from 'react-native';
-import { useRoute,useNavigation } from '@react-navigation/native';
+import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import styles from './PatientDetails.styles';
 import PatientNotes from './PatientNotes';
 import PatientTest from './PatientTest';
@@ -10,9 +10,26 @@ import PatientTimeline from './PatientTimeline';
 import PatientPhoto from './PatientPhoto';
 import PatientImage from './PatientImage';
 
+type Patient = {
+  name: string;
+  dob: string;
+  gender: string;
+  id: string;
+  phone?: string;
+  email?: string;
+  lastVisit?: string;
+  // add other patient fields if needed
+};
+
+type PatientDetailsRouteParams = {
+  patient: Patient;
+};
+
+type PatientDetailsRouteProp = RouteProp<{ PatientDetails: PatientDetailsRouteParams }, 'PatientDetails'>;
+
 const PatientDetails = () => {
-  const route = useRoute();
-  const navigation = useNavigation(); // ✅
+  const route = useRoute<PatientDetailsRouteProp>(); // typed route
+  const navigation = useNavigation(); 
   const { patient } = route.params;
 
   const tabs = [
@@ -24,6 +41,7 @@ const PatientDetails = () => {
     'Tests',
     'Prescriptions',
     'Billing',
+    'Dicom'
   ];
 
   const [activeTab, setActiveTab] = useState('History');
@@ -55,6 +73,8 @@ const PatientDetails = () => {
         return <PatientPrescription />;
       case 'Billing':
         return <PatientBilling />;
+      case 'Dicom':
+        return <PatientBilling />;
       default:
         return null;
     }
@@ -63,7 +83,7 @@ const PatientDetails = () => {
   return (
     <ScrollView style={styles.container}>
       {/* Back Link */}
-      <Pressable onPress={() => navigation.goBack()}>  {/* ✅ */}
+      <Pressable onPress={() => navigation.goBack()}>
         <Text style={styles.backLink}>&larr; Back to Patient List</Text>
       </Pressable>
 

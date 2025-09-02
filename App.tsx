@@ -112,7 +112,7 @@ const linking = {
 export default function App() {
   return (
     <NavigationContainer linking={linking}>
-      <Stack.Navigator initialRouteName="Landing">
+      <Stack.Navigator id={undefined} initialRouteName="Landing">
         <Stack.Screen name="Landing" component={LandingPage} options={{ headerShown: false }} />
         <Stack.Screen name="NotFound" component={NotFound} options={{ title: 'Oops!' }} />
 
