@@ -9,13 +9,17 @@ import {
 } from 'aws-amplify/auth';
 import {
   createClinic, deleteClinic, updateClinic, createClinicInfrastructure
-} from '../graphql/mutations';
-import { listClinics } from '../graphql/queries';
+} from '../../mutations';
+import { listClinics } from '../../queries';
 import { Ionicons } from '@expo/vector-icons';
 import { CommonActions } from '@react-navigation/native';
 import { Dimensions } from 'react-native';
 import CloudMetricsScreen from './MetricsDashboard/CloudMetricsScreen';
 import Footer from './Footer/Footer';
+import { Amplify } from 'aws-amplify';
+import awsExports from '../aws-exports'; // adjust path
+Amplify.configure(awsExports);
+
 const screenWidth = Dimensions.get('window').width;
 const isLargeScreen = Platform.OS === 'web' && screenWidth >= 768;
 const client = generateClient();
@@ -36,19 +40,40 @@ export default function SuperDashboardScreen({ navigation }) {
   );
 
   const fetchClinics = async () => {
-    try {
-      console.log('📡 Fetching clinics...');
-      const result = await client.graphql({ query: listClinics, authMode: 'userPool' });
-      if ('data' in result && result.data?.listClinics?.items) {
-        console.log('✅ Clinics fetched:', result.data.listClinics.items);
-        setClinics(result.data.listClinics.items);
-      } else {
-        console.warn('⚠️ No clinics found');
-      }
-    } catch (err) {
+  try {
+    console.log('📡 Fetching clinics...');
+
+    // Get current user and groups
+    const user = await getCurrentUser();
+    const session = await fetchAuthSession();
+    const idToken = session.tokens?.idToken;
+    const groups = idToken?.payload['cognito:groups'] || [];
+    console.log('👥 User Cognito groups:', groups);
+
+    const result = await client.graphql({ query: listClinics, authMode: 'userPool' });
+
+    if ('data' in result && result.data?.listClinics?.items) {
+      console.log('✅ Clinics fetched:', result.data.listClinics.items);
+      setClinics(result.data.listClinics.items);
+    } else {
+      console.warn('⚠️ No clinics found or not authorized');
+      setClinics([]);
+    }
+
+  } catch (err: any) {
+    // Check if error is unauthorized
+    if (err.errors?.some(e => e.errorType === 'Unauthorized')) {
+      console.error('🚫 User not authorized to access listClinics');
+      Alert.alert(
+        'Access Denied',
+        'You do not have permission to view clinics. Please contact your admin.'
+      );
+    } else {
       console.error('❌ Error fetching clinics:', err);
     }
-  };
+  }
+};
+
 
   useEffect(() => {
     fetchClinics();

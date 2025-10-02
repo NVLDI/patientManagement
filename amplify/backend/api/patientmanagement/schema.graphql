@@ -20,13 +20,13 @@ type ClinicInfraMetadata @model
   apiKey: String!
   apiUrl: String!
   tableName: String!
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
 }
 
 
 type Mutation {
   createClinicInfrastructure(input: CreateClinicInput!): ClinicInfraResult
-    @function(name: "createClinicInfrastructure", region: "ap-south-1")
+    @function(name: "createClinicInfrastructure-${env}", region: "ap-south-1")
     @auth(rules: [{ allow: groups, groups: ["superAdmin"] }])
 }
 
@@ -48,6 +48,8 @@ type ClinicInfraResult
   apiKey: String
   tableName: String
   bucketName: String
+  loginLink: String  
+  defaultPassword: String!
 }
 type BillingRecord @model
 @auth(rules: [{ allow: groups, groups: ["superAdmin"], operations: [read, update] }]) {

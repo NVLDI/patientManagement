@@ -89,6 +89,8 @@ export const getClinicInfraResult = /* GraphQL */ `
       apiKey
       tableName
       bucketName
+      loginLink
+      defaultPassword
       __typename
     }
   }
@@ -114,6 +116,8 @@ export const listClinicInfraResults = /* GraphQL */ `
         apiKey
         tableName
         bucketName
+        loginLink
+        defaultPassword
         __typename
       }
       nextToken

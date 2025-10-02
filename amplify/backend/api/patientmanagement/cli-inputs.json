@@ -5,12 +5,14 @@
     "serviceName": "AppSync",
     "defaultAuthType": {
       "mode": "API_KEY",
-      "expirationTime": 7
+      "expirationTime": 365,
+      "apiKeyExpirationDate": "2026-10-01T11:23:11.515Z",
+      "keyDescription": "PMS Master"
     },
     "additionalAuthTypes": [
       {
         "mode": "AMAZON_COGNITO_USER_POOLS",
-        "cognitoUserPoolId": "authpatientmanagementa8e4a2dfa8e4a2df"
+        "cognitoUserPoolId": "authpatientmanagement6bdde903"
       }
     ]
   }

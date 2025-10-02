@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Linking from 'expo-linking';
 import { Amplify } from 'aws-amplify';
-import awsExports from './aws-exports.js';
+import awsExports from './src/aws-exports.js';
 Amplify.configure(awsExports);
 
 // Super Admin
@@ -112,7 +112,7 @@ const linking = {
 export default function App() {
   return (
     <NavigationContainer linking={linking}>
-      <Stack.Navigator id={undefined} initialRouteName="Landing">
+      <Stack.Navigator initialRouteName="Landing">
         <Stack.Screen name="Landing" component={LandingPage} options={{ headerShown: false }} />
         <Stack.Screen name="NotFound" component={NotFound} options={{ title: 'Oops!' }} />
 

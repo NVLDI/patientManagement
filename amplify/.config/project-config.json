@@ -1,14 +1,15 @@
 {
+  "whyContinueWithGen1": "Prefer not to answer",
   "projectName": "patientManagement",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {
-    "framework": "none",
+    "framework": "react-native",
     "config": {
-      "SourceDir": ".",
-      "DistributionDir": "web-build",
-      "BuildCommand": "expo build:web",
-      "StartCommand": "expo start"
+      "SourceDir": "src",
+      "DistributionDir": "/",
+      "BuildCommand": "npm.cmd run-script build",
+      "StartCommand": "npm.cmd run-script start"
     }
   },
   "providers": [

@@ -35,6 +35,8 @@ export const createClinicInfraResult = /* GraphQL */ `
       apiKey
       tableName
       bucketName
+      loginLink
+      defaultPassword
       __typename
     }
   }
@@ -54,6 +56,8 @@ export const updateClinicInfraResult = /* GraphQL */ `
       apiKey
       tableName
       bucketName
+      loginLink
+      defaultPassword
       __typename
     }
   }
@@ -73,6 +77,8 @@ export const deleteClinicInfraResult = /* GraphQL */ `
       apiKey
       tableName
       bucketName
+      loginLink
+      defaultPassword
       __typename
     }
   }
@@ -232,6 +238,8 @@ export const createClinicInfrastructure = /* GraphQL */ `
       apiKey
       tableName
       bucketName
+      loginLink
+      defaultPassword
       __typename
     }
   }

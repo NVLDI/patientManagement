@@ -1,27 +1,5 @@
 {
   "api": {
-    "AdminQueries": {
-      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
-      "dependsOn": [
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "patientmanagementa8e4a2dfa8e4a2df"
-        },
-        {
-          "attributes": [
-            "Arn",
-            "Name"
-          ],
-          "category": "function",
-          "resourceName": "AdminQueriesdf5b1693"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "API Gateway"
-    },
     "patientmanagement": {
       "dependsOn": [
         {
@@ -29,7 +7,7 @@
             "UserPoolId"
           ],
           "category": "auth",
-          "resourceName": "patientmanagementa8e4a2dfa8e4a2df"
+          "resourceName": "patientmanagement6bdde903"
         }
       ],
       "output": {
@@ -38,13 +16,15 @@
             {
               "authenticationType": "AMAZON_COGNITO_USER_POOLS",
               "userPoolConfig": {
-                "userPoolId": "authpatientmanagementa8e4a2dfa8e4a2df"
+                "userPoolId": "authpatientmanagement6bdde903"
               }
             }
           ],
           "defaultAuthentication": {
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 7
+              "apiKeyExpirationDate": "2026-10-01T11:23:11.515Z",
+              "apiKeyExpirationDays": 365,
+              "description": "PMS Master"
             },
             "authenticationType": "API_KEY"
           }
@@ -55,24 +35,13 @@
     }
   },
   "auth": {
-    "patientmanagementa8e4a2dfa8e4a2df": {
+    "patientmanagement6bdde903": {
       "customAuth": false,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Arn",
-            "Name"
-          ],
-          "category": "function",
-          "resourceName": "patientmanagementa8e4a2dfa8e4a2dfPostConfirmation",
-          "triggerProvider": "Cognito"
-        }
-      ],
+      "dependsOn": [],
       "frontendAuthConfig": {
-        "mfaConfiguration": "OPTIONAL",
+        "mfaConfiguration": "OFF",
         "mfaTypes": [
-          "SMS",
-          "TOTP"
+          "SMS"
         ],
         "passwordProtectionSettings": {
           "passwordPolicyCharacters": [],
@@ -91,40 +60,10 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
-    },
-    "userPoolGroups": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "UserPoolId",
-            "AppClientIDWeb",
-            "AppClientID",
-            "IdentityPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "patientmanagementa8e4a2dfa8e4a2df"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Cognito-UserPool-Groups"
     }
   },
   "function": {
-    "AdminQueriesdf5b1693": {
-      "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "patientmanagementa8e4a2dfa8e4a2df"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "patientmanagementa8e4a2dfa8e4a2dfPostConfirmation": {
+    "createClinicInfrastructure": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -137,43 +76,27 @@
     }
   },
   "parameters": {
-    "AMPLIFY_function_AdminQueriesdf5b1693_deploymentBucketName": {
+    "AMPLIFY_function_createClinicInfrastructure_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "AdminQueriesdf5b1693"
+          "resourceName": "createClinicInfrastructure"
         }
       ]
     },
-    "AMPLIFY_function_AdminQueriesdf5b1693_s3Key": {
+    "AMPLIFY_function_createClinicInfrastructure_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "AdminQueriesdf5b1693"
+          "resourceName": "createClinicInfrastructure"
         }
       ]
     },
-    "AMPLIFY_function_patientmanagementa8e4a2dfa8e4a2dfPostConfirmation_GROUP": {
+    "AMPLIFY_function_createClinicInfrastructure_userPoolId": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "patientmanagementa8e4a2dfa8e4a2dfPostConfirmation"
-        }
-      ]
-    },
-    "AMPLIFY_function_patientmanagementa8e4a2dfa8e4a2dfPostConfirmation_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "patientmanagementa8e4a2dfa8e4a2dfPostConfirmation"
-        }
-      ]
-    },
-    "AMPLIFY_function_patientmanagementa8e4a2dfa8e4a2dfPostConfirmation_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "patientmanagementa8e4a2dfa8e4a2dfPostConfirmation"
+          "resourceName": "createClinicInfrastructure"
         }
       ]
     }

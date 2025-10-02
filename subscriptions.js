@@ -105,6 +105,8 @@ export const onCreateClinicInfraResult = /* GraphQL */ `
       apiKey
       tableName
       bucketName
+      loginLink
+      defaultPassword
       __typename
     }
   }
@@ -123,6 +125,8 @@ export const onUpdateClinicInfraResult = /* GraphQL */ `
       apiKey
       tableName
       bucketName
+      loginLink
+      defaultPassword
       __typename
     }
   }
@@ -141,6 +145,8 @@ export const onDeleteClinicInfraResult = /* GraphQL */ `
       apiKey
       tableName
       bucketName
+      loginLink
+      defaultPassword
       __typename
     }
   }
